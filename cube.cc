@@ -36,6 +36,18 @@ static void on_window_closed (GtkWidget *widget, gpointer data)
   gtk_main_quit ();
 }
 
+/*static GdkGLContext* create_context (GtkGLArea *area,
+  gpointer   user_data) {
+
+  }*/
+
+static void resize (GtkGLArea *area,
+                    gint       width,
+                    gint       height,
+                    gpointer   user_data) {
+  
+}
+
 static gboolean render(GtkGLArea *area, GdkGLContext *context)
 {
   IGNORE_VAR(GdkGLContext*, context);
@@ -56,7 +68,7 @@ static gboolean render(GtkGLArea *area, GdkGLContext *context)
   return true;
 }
 
-static gboolean realise(GtkGLArea *area, GdkGLContext *context)
+static gboolean realize(GtkGLArea *area, GdkGLContext *context)
 {
   IGNORE_VAR(GdkGLContext*, context);
 
@@ -105,6 +117,11 @@ static gboolean realise(GtkGLArea *area, GdkGLContext *context)
   return true;
 }
 
+static void unrealize (GtkWidget *widget,
+                       gpointer   user_data) {
+
+}
+
 
 static void connection_mapper (GtkBuilder *builder, GObject *object,
                                const gchar *signal_name, const gchar *handler_name,
@@ -113,55 +130,37 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
   g_print ("Verbinde %s mit %s\n", signal_name, handler_name);
 
   if (g_strcmp0(handler_name, "gtk_main_quit")==0) {
-    g_signal_connect(object,signal_name,G_CALLBACK(gtk_main_quit),0);
-  } else{
+    g_signal_connect(object,signal_name,G_CALLBACK(on_window_closed),0);
+    //} else if (g_strcmp0(handler_name, "create_context")==0) {
+    //g_signal_connect(object,signal_name,G_CALLBACK(create_context),user_data);
+  } else if (g_strcmp0(handler_name, "render")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(render),0);
+  } else if (g_strcmp0(handler_name, "resize")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(resize),user_data);
+  } else if (g_strcmp0(handler_name, "realize")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(realize),0);
+  } else if (g_strcmp0(handler_name, "unrealize")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(unrealize),user_data);
+  } else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }
 }
 
 
-int main (int argc, char *argv[])
-{
-/*  gtk_init(&argc, &argv);
+  int main (int argc, char *argv[])
+  {
 
-    GtkWidget *window  = gtk_window_new(GTK_WINDOW_TOPLEVEL),
-    *gl_area = gtk_gl_area_new();
     GtkBuilder *builder;
+    GError *errors = NULL;
+    GtkWidget *window;
 
     gtk_init (&argc, &argv);
     builder = gtk_builder_new ();
     gtk_builder_add_from_file (builder, "interface.ui.xml", &errors);
     //gtk_builder_connect_signals (builder, builder);
-    gtk_builder_connect_signals_full (builder, connection_mapper, NULL);    window = GTK_WIDGET(gtk_builder_get_object (builder, "hauptfenster"));
+    gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
+    window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
     gtk_widget_show_all (window);
     gtk_main ();
     return 0;
-
-    g_signal_connect(window,  "delete-event", G_CALLBACK(gtk_main_quit), NULL);
-    g_signal_connect(gl_area, "realize",      G_CALLBACK(realise),       NULL);
-    g_signal_connect(gl_area, "render",       G_CALLBACK(render),        NULL);
-
-    gtk_container_add(GTK_CONTAINER(window), gl_area);
-
-    gtk_widget_show_all(window);
-
-    gtk_main();
-
-    return 0;
-*/
-
-
-  GtkBuilder *builder;
-  GError *errors = NULL;
-  GtkWidget *window;
-
-  gtk_init (&argc, &argv);
-  builder = gtk_builder_new ();
-  gtk_builder_add_from_file (builder, "interface.ui.xml", &errors);
-  //gtk_builder_connect_signals (builder, builder);
-  gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
-  window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
-  gtk_widget_show_all (window);
-  gtk_main ();
-  return 0;
-}
+  }
