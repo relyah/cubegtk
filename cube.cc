@@ -16,29 +16,6 @@
 
 OpenGLApplication *app;
 
-/*
-  const GLchar *vert_src ="\n" \
-  "#version 330                                  \n" \
-  "#extension GL_ARB_explicit_attrib_location: enable  \n" \
-  "                                              \n" \
-  "layout(location = 0) in vec2 in_position;     \n" \
-  "                                              \n" \
-  "void main()                                   \n" \
-  "{                                             \n" \
-  "  gl_Position = vec4(in_position, 0.0, 1.0);  \n" \
-  "}                                             \n";
-*/
-
-/*
-  const GLchar *frag_src ="\n" \
-  "void main (void)                              \n" \
-  "{                                             \n" \
-  "  gl_FragColor = vec4(1.0, 0.5, 1.0, 1.0);    \n" \
-  "}                                             \n";
-*/
-
-//GLuint gl_vao, gl_buffer, gl_program;
-
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
   gtk_main_quit ();
@@ -52,28 +29,15 @@ static void on_window_closed (GtkWidget *widget, gpointer data)
 static void resize (GtkGLArea *area,
                     gint       width,
                     gint       height,
-                    gpointer   user_data) {
-  
+                    gpointer   user_data) { 
 }
 
 static gboolean render(GtkGLArea *area, GdkGLContext *context)
 {
-  app->Render();
-
   IGNORE_VAR(GdkGLContext*, context);
   IGNORE_VAR(GtkGLArea*, area);
-/*
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0, 0.0, 0.0, 1.0);
 
-  glUseProgram(gl_program);
-  glBindVertexArray(gl_vao);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
-
-  glBindVertexArray (0);
-  glUseProgram (0);
-
-  glFlush();*/
+  app->Render();
 
   return true;
 }
@@ -92,41 +56,6 @@ static gboolean realize(GtkGLArea *area, GdkGLContext *context)
   app = new OpenGLApplication();
   app->Init();
 
-/*  GLfloat verts[] = 
-    {
-    +0.0f, +1.0f,
-    -1.0f, -1.0f,
-    +1.0f, -1.0f,
-    };
-
-    GLuint frag_shader, vert_shader;
-    frag_shader = glCreateShader(GL_FRAGMENT_SHADER);
-    vert_shader = glCreateShader(GL_VERTEX_SHADER);
-
-    glShaderSource(frag_shader, 1, &frag_src, NULL);
-    glShaderSource(vert_shader, 1, &vert_src, NULL);
-
-    glCompileShader(frag_shader);
-    glCompileShader(vert_shader);
-
-    gl_program = glCreateProgram();
-    glAttachShader(gl_program, frag_shader);
-    glAttachShader(gl_program, vert_shader);
-    glLinkProgram(gl_program);
-
-    glGenVertexArrays(1, &gl_vao);
-    glBindVertexArray(gl_vao);
-
-    glGenBuffers(1, &gl_buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, gl_buffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glBindVertexArray(0);
-
-    glDeleteBuffers(1, &gl_buffer);
-*/
   return true;
 }
 
@@ -134,7 +63,6 @@ static void unrealize (GtkWidget *widget,
                        gpointer   user_data) {
   app->Shutdown();
   delete app;
-
 }
 
 
