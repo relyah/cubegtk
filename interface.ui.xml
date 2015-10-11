@@ -4,57 +4,26 @@
         <child>
             <object class="GtkActionGroup" id="aktionen">
                 <child>
-                    <object class="GtkAction" id="datei">
-                        <property name="label">_Datei</property>
+                    <object class="GtkAction" id="file">
+                        <property name="label">_File</property>
                     </object>
                 </child>
                 <child>
                     <object class="GtkAction" id="exit">
-                        <property name="label">_Beenden</property>
+                        <property name="label">_Quit</property>
                         <property name="stock-id">gtk-quit</property>
                         <signal name="activate" handler="gtk_main_quit"/>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkAction" id="bearbeiten">
-                        <property name="label">_Bearbeiten</property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkAction" id="fettschrift">
-                        <property name="label">_fett</property>
-                        <property name="stock-id">gtk-bold</property>
-                        <signal name="activate" handler="fettschreiben" object="textview" />
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkAction" id="kursivschrift">
-                        <property name="label">_kursiv</property>
-                        <property name="stock-id">gtk-italic</property>
-                    </object>
-                </child>
-                <child>
-                    <object class="GtkAction" id="normalschrift">
-                        <property name="label">_normal</property>
                     </object>
                 </child>
             </object>
         </child>
         <ui>
             <menubar name="menubar">
-                <menu action="datei" >
+                <menu action="file" >
                     <menuitem action="exit" />
-                </menu>
-                <menu action="bearbeiten">
-                    <menuitem action="fettschrift" />
-                    <menuitem action="kursivschrift" />
-                    <menuitem action="normalschrift" />
                 </menu>
             </menubar>
             <toolbar  name="toolbar1" >
-                <toolitem name="fett" action="fettschrift" />
-                <toolitem name="kursiv" action="kursivschrift" />
-                <toolitem name="normal" action="normalschrift" />
             </toolbar>
         </ui>
     </object>
@@ -82,8 +51,8 @@
                     <object class="GtkTextView" id="textview" />
                 </child>
                 <child>
-                    <object class="GtkLabel" id="mein-label-1">
-                        <property name="label">Kleiner Editor</property>
+                    <object class="GtkLabel" id="StatusLabel">
+                        <property name="label">Cube GTK</property>
                     </object>
                     <packing>
                         <property name="expand">FALSE</property>

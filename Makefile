@@ -13,7 +13,7 @@ LIBS = -lGL -lepoxy
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o
+cube: cube.o interface.ui.xml
 	g++ ${CFLAGS} -o cube cube.o
 
 cube.o: cube.cc
