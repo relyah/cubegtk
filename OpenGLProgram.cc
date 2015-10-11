@@ -63,8 +63,8 @@ void OpenGLProgram::Shutdown() {
 }
 
 void OpenGLProgram::InitProgram() {
-  vs = CreateShader(GL_VERTEX_SHADER,"vs.glsl");
-  fs = CreateShader(GL_FRAGMENT_SHADER,"fs.glsl");
+  //vs = CreateShader(GL_VERTEX_SHADER,"vs.glsl");
+  //fs = CreateShader(GL_FRAGMENT_SHADER,"fs.glsl");
 
 /*  fs = glCreateShader(GL_FRAGMENT_SHADER);
   vs = glCreateShader(GL_VERTEX_SHADER);
@@ -81,10 +81,10 @@ void OpenGLProgram::InitProgram() {
   glCompileShader(fs);
   glCompileShader(vs);*/
 
-  program = glCreateProgram();
-  glAttachShader(program, fs);
-  glAttachShader(program, vs);
-  glLinkProgram(program);
+  program = CreateProgram("vs.glsl","fs.glsl",vs,fs);
+  //glAttachShader(program, fs);
+  //glAttachShader(program, vs);
+  //glLinkProgram(program);
 }
 
 void OpenGLProgram::InitVAO() {

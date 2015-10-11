@@ -1,5 +1,33 @@
 #include "AbstractOpenGLProgram.h"
 
+GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader) {
+	GLuint program = glCreateProgram();
+	//GLuint vshader;
+	if (vertexfile) {
+		vshader = CreateShader(GL_VERTEX_SHADER,vertexfile);
+		if (!vshader)
+			return 0;
+		glAttachShader(program, vshader);
+	}
+	//GLuint fshader;
+	if (fragmentfile) {
+		fshader = CreateShader(GL_FRAGMENT_SHADER,fragmentfile);
+		if (!fshader)
+			return 0;
+		glAttachShader(program, fshader);
+	}
+	glLinkProgram(program);
+	GLint link_ok = GL_FALSE;
+	glGetProgramiv(program, GL_LINK_STATUS, &link_ok);
+	if (!link_ok) {
+    logger->error("glLinkProgram:");
+		//fprintf(stderr, "glLinkProgram:");
+		print_log(program);
+		glDeleteProgram(program);
+		return 0;
+	}
+	return program;
+}
 
 GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {
   GLuint s = glCreateShader(type);

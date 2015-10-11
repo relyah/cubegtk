@@ -7,7 +7,9 @@
 
 class AbstractOpenGLProgram : public AdminBase {
 protected:
+  GLuint CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader);
   GLuint CreateShader(GLenum type, const char *filename);
+  
   char* file_read(const char* filename);
   void print_log(GLuint object);
 };
