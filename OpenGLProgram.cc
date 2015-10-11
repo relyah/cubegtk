@@ -1,23 +1,5 @@
 #include "OpenGLProgram.h"
 
-
-const GLchar *vert_src ="\n" \
-  "#version 330                                  \n" \
-  "#extension GL_ARB_explicit_attrib_location: enable  \n" \
-  "                                              \n" \
-  "layout(location = 0) in vec2 in_position;     \n" \
-  "                                              \n" \
-  "void main()                                   \n" \
-  "{                                             \n" \
-  "  gl_Position = vec4(in_position, 0.0, 1.0);  \n" \
-  "}                                             \n";
-
-const GLchar *frag_src ="\n" \
-  "void main (void)                              \n" \
-  "{                                             \n" \
-  "  gl_FragColor = vec4(1.0, 0.5, 1.0, 1.0);    \n" \
-  "}                                             \n";
-
 OpenGLProgram::OpenGLProgram() {
   logger->info("Starting OpenGLProgram...");
 }
@@ -63,28 +45,7 @@ void OpenGLProgram::Shutdown() {
 }
 
 void OpenGLProgram::InitProgram() {
-  //vs = CreateShader(GL_VERTEX_SHADER,"vs.glsl");
-  //fs = CreateShader(GL_FRAGMENT_SHADER,"fs.glsl");
-
-/*  fs = glCreateShader(GL_FRAGMENT_SHADER);
-  vs = glCreateShader(GL_VERTEX_SHADER);
-
-  char* vert_src = file_read("vs.glsl");
-  char* frag_src = file_read("fs.glsl");
-
-  //logger->info(vert_src);
-  //logger->info(frag_src);
-
-  glShaderSource(fs, 1, &frag_src, NULL);
-  glShaderSource(vs, 1, &vert_src, NULL);
-
-  glCompileShader(fs);
-  glCompileShader(vs);*/
-
   program = CreateProgram("vs.glsl","fs.glsl",vs,fs);
-  //glAttachShader(program, fs);
-  //glAttachShader(program, vs);
-  //glLinkProgram(program);
 }
 
 void OpenGLProgram::InitVAO() {
