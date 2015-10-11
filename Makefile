@@ -13,8 +13,8 @@ LIBS = -lGL -lepoxy -llog4cpp
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o interface.ui.xml
-	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o
+cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o interface.ui.xml
+	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o
 
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
@@ -27,6 +27,9 @@ OpenGLManager.o: OpenGLManager.cc OpenGLManager.h
 
 OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h
 	g++ OpenGLApplication.cc ${CFLAGS} -c
+
+AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h
+	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c
 
 AdminBase: AdminBase.cc AdminBase.h
 	g++ AdminBase.cc ${CFLAGS} -c

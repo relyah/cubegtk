@@ -66,6 +66,12 @@ void OpenGLProgram::InitProgram() {
   fs = glCreateShader(GL_FRAGMENT_SHADER);
   vs = glCreateShader(GL_VERTEX_SHADER);
 
+  char* vert_src = file_read("vs.glsl");
+  char* frag_src = file_read("fs.glsl");
+
+  //logger->info(vert_src);
+  //logger->info(frag_src);
+
   glShaderSource(fs, 1, &frag_src, NULL);
   glShaderSource(vs, 1, &vert_src, NULL);
 

@@ -3,9 +3,9 @@
 
 #include <epoxy/gl.h>
 
-#include "AdminBase.h"
+#include "AbstractOpenGLProgram.h"
 
-class OpenGLProgram : public AdminBase {
+class OpenGLProgram : public AbstractOpenGLProgram {
 
 public:
   OpenGLProgram();
