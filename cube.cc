@@ -5,12 +5,16 @@
 #include <epoxy/gl.h>
 #include <gtk/gtk.h>
 
+#include "OpenGLApplication.h"
+
 //fool compile into thinking a variable is using. prevents warnings
 #define IGNORE_VAR(type, identifier)            \
   {                                             \
     type IGNORED_VARIABLE_abcd = identifier;    \
     identifier = IGNORED_VARIABLE_abcd;         \
   }
+
+OpenGLApplication *app;
 
 const GLchar *vert_src ="\n" \
   "#version 330                                  \n" \
@@ -50,6 +54,8 @@ static void resize (GtkGLArea *area,
 
 static gboolean render(GtkGLArea *area, GdkGLContext *context)
 {
+  app->Render();
+
   IGNORE_VAR(GdkGLContext*, context);
   IGNORE_VAR(GtkGLArea*, area);
 
@@ -70,6 +76,8 @@ static gboolean render(GtkGLArea *area, GdkGLContext *context)
 
 static gboolean realize(GtkGLArea *area, GdkGLContext *context)
 {
+  app = new OpenGLApplication();
+
   IGNORE_VAR(GdkGLContext*, context);
 
   gtk_gl_area_make_current(GTK_GL_AREA(area));
@@ -119,6 +127,8 @@ static gboolean realize(GtkGLArea *area, GdkGLContext *context)
 
 static void unrealize (GtkWidget *widget,
                        gpointer   user_data) {
+  app->Shutdown();
+  delete app;
 
 }
 
