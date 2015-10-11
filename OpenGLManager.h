@@ -1,16 +1,17 @@
 #ifndef OPENGLMANAGER_H_
 #define OPENGLMANAGER_H_
 
-#include "Logger.h"
+#include <epoxy/gl.h>
 
-class OpenGLManager {
+#include "AdminBase.h"
+
+class OpenGLManager : public AdminBase {
 
 public:
   OpenGLManager();
   ~OpenGLManager();
 
-private:
-  	log4cpp::Category* logger;
+  void Init();
 
 };
 

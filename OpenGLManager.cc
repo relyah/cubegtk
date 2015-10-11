@@ -1,12 +1,14 @@
 #include "OpenGLManager.h"
 
 OpenGLManager::OpenGLManager() {
-  logger = Logger::GetLogger();
   logger->info("Starting OpenGLManager...");
 }
 
 OpenGLManager::~OpenGLManager() {
-  logger->info("Stopping down OpenGL.");
-	logger->info("Stopped OpenGL.");
-	logger = 0;
+	logger->info("Stopped OpenGLManager.");
+}
+
+void OpenGLManager::Init() {
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.0f, 0.0f, 0.1f, 1.0f);
 }

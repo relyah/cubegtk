@@ -2,6 +2,7 @@
 #define _OPENGLAPPLICATION_H_
 
 #include "AdminBase.h"
+#include "OpenGLManager.h"
 
 class OpenGLApplication : public AdminBase {
 public:
@@ -12,6 +13,8 @@ public:
   void Render();
   void Shutdown();
 
+private:
+  OpenGLManager *manager;
 };
 
 #endif
