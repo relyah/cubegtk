@@ -63,7 +63,10 @@ void OpenGLProgram::Shutdown() {
 }
 
 void OpenGLProgram::InitProgram() {
-  fs = glCreateShader(GL_FRAGMENT_SHADER);
+  vs = CreateShader(GL_VERTEX_SHADER,"vs.glsl");
+  fs = CreateShader(GL_FRAGMENT_SHADER,"fs.glsl");
+
+/*  fs = glCreateShader(GL_FRAGMENT_SHADER);
   vs = glCreateShader(GL_VERTEX_SHADER);
 
   char* vert_src = file_read("vs.glsl");
@@ -76,7 +79,7 @@ void OpenGLProgram::InitProgram() {
   glShaderSource(vs, 1, &vert_src, NULL);
 
   glCompileShader(fs);
-  glCompileShader(vs);
+  glCompileShader(vs);*/
 
   program = glCreateProgram();
   glAttachShader(program, fs);

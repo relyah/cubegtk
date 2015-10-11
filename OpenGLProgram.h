@@ -1,8 +1,6 @@
 #ifndef OPENGPROGRAM_H_
 #define OPENGLPROGRAM_H_
 
-#include <epoxy/gl.h>
-
 #include "AbstractOpenGLProgram.h"
 
 class OpenGLProgram : public AbstractOpenGLProgram {
