@@ -33,3 +33,7 @@ GTAGS
 *.exe
 *.out
 *.app
+
+# temporary files
+\#*\#
+.\#.*

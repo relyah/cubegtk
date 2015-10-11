@@ -3,6 +3,7 @@
 
 #include "AdminBase.h"
 #include "OpenGLManager.h"
+#include "OpenGLProgram.h"
 
 class OpenGLApplication : public AdminBase {
 public:
@@ -15,6 +16,7 @@ public:
 
 private:
   OpenGLManager *manager;
+  OpenGLProgram *program;
 };
 
 #endif

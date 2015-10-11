@@ -4,9 +4,11 @@ OpenGLApplication::OpenGLApplication() {
   logger->info("Starting OpenGLApplication...");
 
   manager = new OpenGLManager();
+  program = new OpenGLProgram();
 }
 
 OpenGLApplication::~OpenGLApplication() {
+  delete program;
   delete manager;
   logger->info("Stopped OpenGLApplication.");
   logger = 0;
@@ -14,12 +16,15 @@ OpenGLApplication::~OpenGLApplication() {
 
 void OpenGLApplication::Init() {
   logger->info("Init OpenGLApplication...");
-  
+
   manager->Init();
+  program->Init();
 }
 
 void OpenGLApplication::Render() {
   logger->info("Render OpenGLApplication...");
+
+  program->Render();
 }
 
 void OpenGLApplication::Shutdown() {
