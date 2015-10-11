@@ -5,7 +5,6 @@ IMPL_CFLAGS = -std=c++11 -D_XOPEN_SOURCE=600 \
 		-pedantic \
 		-Wall \
 		-W \
-		-Wmissing-prototypes \
 		-Wno-sign-compare \
 		-Wno-unused-parameter
 
@@ -19,16 +18,16 @@ cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProg
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
 
-OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h
+OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o AdminBase.o
 	g++ OpenGLProgram.cc ${CFLAGS} -c
 
-OpenGLManager.o: OpenGLManager.cc OpenGLManager.h
+OpenGLManager.o: OpenGLManager.cc OpenGLManager.h AdminBase.o
 	g++ OpenGLManager.cc ${CFLAGS} -c
 
-OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h
+OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h AdminBase.o
 	g++ OpenGLApplication.cc ${CFLAGS} -c
 
-AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h
+AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h AdminBase.o
 	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c
 
 AdminBase: AdminBase.cc AdminBase.h

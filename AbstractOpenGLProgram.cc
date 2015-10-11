@@ -47,6 +47,20 @@ GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {
   return s;
 }
 
+GLint AbstractOpenGLProgram::GetAttrib(GLuint program, const char *name) {
+	GLint attribute = glGetAttribLocation(program, name);
+	if (attribute == -1)
+		fprintf(stderr, "Could not bind attribute %s\n", name);
+	return attribute;
+}
+
+GLint AbstractOpenGLProgram::GetUniform(GLuint program, const char *name) {
+	GLint uniform = glGetUniformLocation(program, name);
+	if (uniform == -1)
+		fprintf(stderr, "Could not bind uniform %s\n", name);
+	return uniform;
+}
+
 char* AbstractOpenGLProgram::file_read(const char* filename) {
 
 	FILE* in = fopen(filename, "rb");
@@ -97,3 +111,4 @@ void AbstractOpenGLProgram::print_log(GLuint object) {
   //fprintf(stderr, "%s", log);
   free(log);
 }
+

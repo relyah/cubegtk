@@ -17,7 +17,7 @@ OpenGLApplication::~OpenGLApplication() {
 void OpenGLApplication::Init() {
   logger->info("Init OpenGLApplication...");
 
-  manager->Init();
+  manager->Init(manager);
   program->Init();
 }
 
