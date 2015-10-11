@@ -1,9 +1,9 @@
 #ifndef _OPENGLAPPLICATION_H_
 #define _OPENGLAPPLICATION_H_
 
-#include "Logger.h"
+#include "AdminBase.h"
 
-class OpenGLApplication {
+class OpenGLApplication : public AdminBase {
 public:
   OpenGLApplication();
   ~OpenGLApplication();
@@ -12,8 +12,6 @@ public:
   void Render();
   void Shutdown();
 
-private:
-  	log4cpp::Category* logger;
 };
 
 #endif

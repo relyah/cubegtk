@@ -1,7 +1,6 @@
 #include "OpenGLApplication.h"
 
 OpenGLApplication::OpenGLApplication() {
-  logger = Logger::GetLogger();
   logger->info("Starting OpenGLApplication...");
 }
 
