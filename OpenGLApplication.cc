@@ -5,9 +5,16 @@ OpenGLApplication::OpenGLApplication() {
 
   manager = new OpenGLManager();
   program = new OpenGLProgram();
+
+  model = new SquareModel();
+  square = new Square(&program, &model);
+
+  program->AddObject(square);
 }
 
 OpenGLApplication::~OpenGLApplication() {
+  delete square;
+  delete model;
   delete program;
   delete manager;
   logger->info("Stopped OpenGLApplication.");

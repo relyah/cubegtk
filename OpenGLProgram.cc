@@ -17,6 +17,7 @@ void OpenGLProgram::Init() {
 
   InitProgram();
   object->Init();
+  camera->Init();
   InitVAO();
   object->FillVBO();
 }
@@ -29,6 +30,7 @@ void OpenGLProgram::Render() {
   glBindVertexArray(vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
+  camera->Render();
   object->Render();
 
   glBindVertexArray (0);
@@ -38,9 +40,13 @@ void OpenGLProgram::Render() {
 }
 
 void OpenGLProgram::Shutdown() {
+
+  camera->Shutdown();
+  camera=0;
+
   object->ShutDown();
   object=0;
-  
+
   glUseProgram(0);
 
   glDetachShader(GetProgram(), vs);
@@ -56,7 +62,7 @@ void OpenGLProgram::Shutdown() {
 }
 
 void OpenGLProgram::InitProgram() {
-  CreateProgram("vs.glsl","fs.glsl",vs,fs);
+  CreateProgram("cube.vs.glsl","cube.fs.glsl",vs,fs);
 }
 
 void OpenGLProgram::InitVAO() {
