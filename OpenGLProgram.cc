@@ -19,7 +19,7 @@ void OpenGLProgram::Render() {
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0, 0.0, 0.0, 1.0);
 
-  glUseProgram(program);
+  glUseProgram(GetProgram());
   glBindVertexArray(vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
@@ -32,8 +32,8 @@ void OpenGLProgram::Render() {
 void OpenGLProgram::Shutdown() {
   glUseProgram(0);
 
-  glDetachShader(program, vs);
-  glDetachShader(program, fs);
+  glDetachShader(GetProgram(), vs);
+  glDetachShader(GetProgram(), fs);
 
   glDeleteShader(fs);
   glDeleteShader(vs);
@@ -41,11 +41,11 @@ void OpenGLProgram::Shutdown() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-  glDeleteProgram(program);
+  AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
 }
 
 void OpenGLProgram::InitProgram() {
-  program = CreateProgram("vs.glsl","fs.glsl",vs,fs);
+  CreateProgram("vs.glsl","fs.glsl",vs,fs);
 }
 
 void OpenGLProgram::InitVAO() {

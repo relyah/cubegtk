@@ -18,19 +18,20 @@ cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProg
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
 
-OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o AdminBase.o
+OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h OpenGLProgram.o OpenGLManager.o AdminBase.o
+	g++ OpenGLApplication.cc ${CFLAGS} -c
+
+OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o IOpenGLProgram.h AdminBase.o
 	g++ OpenGLProgram.cc ${CFLAGS} -c
 
 OpenGLManager.o: OpenGLManager.cc OpenGLManager.h AdminBase.o
 	g++ OpenGLManager.cc ${CFLAGS} -c
 
-OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h AdminBase.o
-	g++ OpenGLApplication.cc ${CFLAGS} -c
 
-AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h AdminBase.o
+AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h IOpenGLProgram.h AdminBase.o
 	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c
 
-AdminBase: AdminBase.cc AdminBase.h
+AdminBase.o: AdminBase.cc AdminBase.h
 	g++ AdminBase.cc ${CFLAGS} -c
 
 Logger.o: Logger.h Logger.cpp

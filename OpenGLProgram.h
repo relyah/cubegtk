@@ -14,7 +14,7 @@ public:
   void Shutdown();
 
 private:
-  GLuint vao, vbo, program;
+  GLuint vao, vbo;
   GLuint vs, fs;
 
   void InitProgram();

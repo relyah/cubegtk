@@ -1,7 +1,11 @@
 #include "AbstractOpenGLProgram.h"
 
+void AbstractOpenGLProgram::Shutdown() {
+  glDeleteProgram(program);
+}
+
 GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader) {
-	GLuint program = glCreateProgram();
+	this->program = glCreateProgram();
 	//GLuint vshader;
 	if (vertexfile) {
 		vshader = CreateShader(GL_VERTEX_SHADER,vertexfile);
@@ -26,7 +30,7 @@ GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *
 		glDeleteProgram(program);
 		return 0;
 	}
-	return program;
+	return this->program;
 }
 
 GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {
@@ -45,6 +49,14 @@ GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {
 		return 0;
 	}
   return s;
+}
+
+GLint AbstractOpenGLProgram::GetAttrib(const char *name) {
+  return GetAttrib(this->program, name);
+}
+
+GLint AbstractOpenGLProgram::GetUniform(const char *name) {
+  return GetUniform(this->program, name);
 }
 
 GLint AbstractOpenGLProgram::GetAttrib(GLuint program, const char *name) {
