@@ -9,6 +9,8 @@ public:
   OpenGLProgram();
   ~OpenGLProgram();
 
+  void AddObject(IObject* object);
+
   void Init();
   void Render();
   void Shutdown();
@@ -16,6 +18,7 @@ public:
 private:
   GLuint vao, vbo;
   GLuint vs, fs;
+  IObject* object;
 
   void InitProgram();
   void InitVAO();

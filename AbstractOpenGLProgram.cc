@@ -1,5 +1,12 @@
 #include "AbstractOpenGLProgram.h"
 
+void AbstractOpenGLProgram::GenVAO() {
+  if (vao==0) {
+    glGenVertexArrays(1, &vao);
+  }
+  glBindVertexArray(vao);
+}
+
 void AbstractOpenGLProgram::Shutdown() {
   glDeleteProgram(program);
 }

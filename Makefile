@@ -21,12 +21,17 @@ cube.o: cube.cc
 OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h OpenGLProgram.o OpenGLManager.o AdminBase.o
 	g++ OpenGLApplication.cc ${CFLAGS} -c
 
-OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o IOpenGLProgram.h AdminBase.o
+OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o IOpenGLProgram.h IObject.h AdminBase.o
 	g++ OpenGLProgram.cc ${CFLAGS} -c
 
 OpenGLManager.o: OpenGLManager.cc OpenGLManager.h AdminBase.o
 	g++ OpenGLManager.cc ${CFLAGS} -c
 
+Square: Square.cc Square.h IObject.h IModel.h DataStructures.h OpenGLProgram.o
+	g++ Square.cc ${CFLAGS} -c
+
+SquareModel: SquareModel.cc SquareModel.h IModel.h
+	g++ SquareModel.cc ${CFLAGS} -c
 
 AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h IOpenGLProgram.h AdminBase.o
 	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c

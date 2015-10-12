@@ -7,10 +7,12 @@
 class AbstractOpenGLProgram :public IOpenGLProgram,  public AdminBase {
 
 public:
+  virtual void GenVAO();
   virtual void Shutdown();
 
 protected:
   GLuint program;
+  GLuint vao=0;
 
   GLuint CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader);
   GLuint CreateShader(GLenum type, const char *filename);

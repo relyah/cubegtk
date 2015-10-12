@@ -8,11 +8,17 @@ OpenGLProgram::~OpenGLProgram() {
   logger->info("Stopped OpenGLProgram.");
 }
 
+void OpenGLProgram::AddObject(IObject* object) {
+  this->object = object;
+}
+
 void OpenGLProgram::Init() {
   logger->info("Init OpenGLProgram...");
 
   InitProgram();
+  object->Init();
   InitVAO();
+  object->FillVBO();
 }
 
 void OpenGLProgram::Render() {
@@ -23,6 +29,8 @@ void OpenGLProgram::Render() {
   glBindVertexArray(vao);
   glDrawArrays(GL_TRIANGLES, 0, 3);
 
+  object->Render();
+
   glBindVertexArray (0);
   glUseProgram (0);
 
@@ -30,6 +38,9 @@ void OpenGLProgram::Render() {
 }
 
 void OpenGLProgram::Shutdown() {
+  object->ShutDown();
+  object=0;
+  
   glUseProgram(0);
 
   glDetachShader(GetProgram(), vs);
