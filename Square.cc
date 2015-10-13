@@ -32,8 +32,8 @@ void Square::FillVBO() {
   };
   unsigned short pointsIndex[] = {0,1,2,2,3,0};
 
-  glUseProgram(program->GetProgram());
-  program->GenVAO();
+  //glUseProgram(program->GetProgram());
+  //program->GenVAO();
 
   glGenBuffers(1, &vboPoints);
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
@@ -62,6 +62,7 @@ void Square::FillVBO() {
 void Square::Render() {
   glm::mat4 modelMatrix = model->GetModel();
   glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
+
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,0);

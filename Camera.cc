@@ -9,7 +9,7 @@ Camera::Camera(IOpenGLProgram *program, int screenWidth, int screenHeight)
 	cameraUp = glm::vec3(0.0, 1.0, 0.0); //up direction; probably glm::vec3(0,1,0), but (0,-1,0) would make you looking upside-down, which can be great too
 	//cameraRight = glm::vec3(1.0, 0.0, 0.0);
 
-  view =  glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
+  view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
 
   projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
 
@@ -22,19 +22,23 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
+  //glUseProgram(program->GetProgram());
+  //program->GenVAO();
+  
   uniform_v = program->GetUniform("view");
   uniform_p = program->GetUniform("projection");
 
   glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
   glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
 
-    sstm.str(std::string());
-    sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
+  sstm.str(std::string());
+  sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 }
 
 void Camera::Render() {
-
+  //glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
+  // glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
 }
 
 void Camera::Shutdown() {

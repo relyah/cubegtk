@@ -25,16 +25,23 @@ void OpenGLProgram::Init() {
   object->Init();
   camera->Init();
 
+
   object->FillVBO();
+
+
+
 }
 
 void OpenGLProgram::Render() {
-  glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.5, 0.0, 0.0, 1.0);
+  
 
   glUseProgram(GetProgram());
   GenVAO(); //glBindVertexArray(vao);
   //glDrawArrays(GL_TRIANGLES, 0, 3);
+
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.0, 0.1, 0.0, 1.0);
+  glPointSize(40.0f);
 
   camera->Render();
   object->Render();
@@ -64,7 +71,7 @@ void OpenGLProgram::Shutdown() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-  AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
+AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
 }
 
 void OpenGLProgram::InitProgram() {
