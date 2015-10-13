@@ -53,7 +53,9 @@ static gboolean realize(GtkGLArea *area, GdkGLContext *context)
     return FALSE;
   }
 
-  app = new OpenGLApplication();
+  int width = gtk_widget_get_allocated_width((GtkWidget*)area);
+  int height = gtk_widget_get_allocated_height((GtkWidget*)area);
+  app = new OpenGLApplication(width,height);
   app->Init();
 
   return true;

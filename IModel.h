@@ -1,4 +1,4 @@
-#include _IMODEL_H_
+#ifndef _IMODEL_H_
 #define _IMODEL_H_
 
 #define GLM_MESSAGES
@@ -9,6 +9,9 @@
 class IModel {
 
 public:
+
+  virtual ~IModel() {}
+
   virtual glm::mat4 GetModel() = 0;
 };
 

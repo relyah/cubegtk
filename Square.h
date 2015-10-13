@@ -1,18 +1,18 @@
 #ifndef _SQUARE_H_
 #define _SQUARE_H_
 
-#inclide "Logger.h"
+#include "Logger.h"
 #include "DataStructures.h"
 #include "IObject.h"
 #include "IOpenGLProgram.h"
 #include "IModel.h"
 
-class Square : IObject {
+class Square  : public IObject {
 
 public:
 
   Square(IOpenGLProgram* program, IModel* model);
-  ~Square();
+  virtual ~Square();
 
   void Init();
   void FillVBO();

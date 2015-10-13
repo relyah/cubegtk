@@ -9,6 +9,7 @@
 #include <epoxy/gl.h>
 
 #include "Logger.h"
+#include "IOpenGLProgram.h"
 
 class Camera {
 
@@ -23,10 +24,11 @@ public:
 private:
   log4cpp::Category* logger;
   IOpenGLProgram *program;
-  int screenWidth, int screenHeight;
+  int screenWidth;
+  int screenHeight;
   GLint uniform_p;
   GLint uniform_v;
-  glm::vec3 cameraPostion;
+  glm::vec3 cameraPosition;
   glm::vec3 cameraLookAt;
   glm::vec3 cameraUp;
   glm::mat4 view;

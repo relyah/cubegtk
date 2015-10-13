@@ -12,6 +12,10 @@ void OpenGLProgram::AddObject(IObject* object) {
   this->object = object;
 }
 
+void OpenGLProgram::SetCamera(Camera* camera) {
+  this->camera = camera;
+}
+
 void OpenGLProgram::Init() {
   logger->info("Init OpenGLProgram...");
 
@@ -44,7 +48,7 @@ void OpenGLProgram::Shutdown() {
   camera->Shutdown();
   camera=0;
 
-  object->ShutDown();
+  object->Shutdown();
   object=0;
 
   glUseProgram(0);

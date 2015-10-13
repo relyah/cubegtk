@@ -1,20 +1,24 @@
 #include "OpenGLApplication.h"
 
-OpenGLApplication::OpenGLApplication() {
+OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
+  :screenWidth(screenWidth), screenHeight(screenHeight){
   logger->info("Starting OpenGLApplication...");
 
   manager = new OpenGLManager();
   program = new OpenGLProgram();
 
   model = new SquareModel();
-  square = new Square(&program, &model);
+  square = new Square(program, model);
+  camera = new Camera(program, screenWidth, screenHeight);
 
+  program->SetCamera(camera);
   program->AddObject(square);
 }
 
 OpenGLApplication::~OpenGLApplication() {
   delete square;
   delete model;
+  delete camera;
   delete program;
   delete manager;
   logger->info("Stopped OpenGLApplication.");

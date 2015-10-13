@@ -12,13 +12,11 @@ Square::~Square() {
 
 void Square::Init() {
 
-  GLuint program = program->GetProgram();
+  attribute_vp = program->GetAttrib("vp");
+  attribute_vn = program->GetAttrib("vn");
+  attribute_vc = program->GetAttrib("vc");
 
-  attribute_vp = get_attrib(program, "vp");
-  attribute_vn = get_attrib(program, "vn");
-  attribute_vc = get_attrib(program, "vc");
-
-  uniform_m = get_uniform(program,"model");
+  uniform_m = program->GetUniform("model");
 }
 
 void Square::FillVBO() {
@@ -56,8 +54,8 @@ void Square::FillVBO() {
 }
 
 void Square::Render() {
-  glm::mat4 model = model->GetModel();
-  glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(model));
+  glm::mat4 modelMatrix = model->GetModel();
+  glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,0);
@@ -69,3 +67,4 @@ void Square::Shutdown() {
   program=0;
   model=0;
 }
+

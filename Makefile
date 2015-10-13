@@ -12,8 +12,8 @@ LIBS = -lGL -lepoxy -llog4cpp
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o interface.ui.xml
-	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o
+cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o interface.ui.xml
+	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o
 
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
@@ -27,11 +27,14 @@ OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h AbstractOpenGLProgram.o IOpenG
 OpenGLManager.o: OpenGLManager.cc OpenGLManager.h AdminBase.o
 	g++ OpenGLManager.cc ${CFLAGS} -c
 
-Square: Square.cc Square.h IObject.h IModel.h DataStructures.h OpenGLProgram.o
+Square.o: Square.cc Square.h IObject.h IModel.h DataStructures.h
 	g++ Square.cc ${CFLAGS} -c
 
-SquareModel: SquareModel.cc SquareModel.h IModel.h
+SquareModel.o: SquareModel.cc SquareModel.h IModel.h
 	g++ SquareModel.cc ${CFLAGS} -c
+
+Camera.o: Camera.cc Camera.h IOpenGLProgram.h
+	g++ Camera.cc ${CFLAGS} -c
 
 AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h IOpenGLProgram.h AdminBase.o
 	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c
