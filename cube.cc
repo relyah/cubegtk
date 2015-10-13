@@ -53,8 +53,14 @@ static gboolean realize(GtkGLArea *area, GdkGLContext *context)
     return FALSE;
   }
 
-  int width = gtk_widget_get_allocated_width((GtkWidget*)area);
-  int height = gtk_widget_get_allocated_height((GtkWidget*)area);
+  int width, minWidth, natWidth;
+  int height, minHeight, natHeight;
+  gtk_widget_get_preferred_width((GtkWidget*)area,&minWidth,&natWidth);
+  gtk_widget_get_preferred_height((GtkWidget*)area,&minHeight,&natHeight);
+  width = gtk_widget_get_allocated_width((GtkWidget*)area);
+  height = gtk_widget_get_allocated_height((GtkWidget*)area);
+
+  printf("Starting OpenGLApplication Width=%d, MinWidth=%d, NatWidth=%d, Height=%d, MinHeight=%d, NatHeight=%d\n",width,minWidth,natWidth,height,minHeight,natHeight);
   app = new OpenGLApplication(width,height);
   app->Init();
 

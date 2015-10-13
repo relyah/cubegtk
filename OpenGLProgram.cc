@@ -20,19 +20,21 @@ void OpenGLProgram::Init() {
   logger->info("Init OpenGLProgram...");
 
   InitProgram();
+  InitVAO();
+
   object->Init();
   camera->Init();
-  InitVAO();
+
   object->FillVBO();
 }
 
 void OpenGLProgram::Render() {
-  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-  glClearColor(0.0, 0.0, 0.0, 1.0);
+  glClear(GL_COLOR_BUFFER_BIT);// | GL_DEPTH_BUFFER_BIT);
+  glClearColor(0.5, 0.0, 0.0, 1.0);
 
   glUseProgram(GetProgram());
-  glBindVertexArray(vao);
-  glDrawArrays(GL_TRIANGLES, 0, 3);
+  GenVAO(); //glBindVertexArray(vao);
+  //glDrawArrays(GL_TRIANGLES, 0, 3);
 
   camera->Render();
   object->Render();
@@ -67,27 +69,32 @@ void OpenGLProgram::Shutdown() {
 
 void OpenGLProgram::InitProgram() {
   CreateProgram("cube.vs.glsl","cube.fs.glsl",vs,fs);
+
+  sstm.str(std::string());
+  sstm << "program: " << program << std::endl;
+  logger->info(sstm.str());
 }
 
 void OpenGLProgram::InitVAO() {
 
-  GLfloat verts[] = 
+  /*GLfloat verts[] = 
     {
-      +0.0f, +1.0f,
-      -1.0f, -1.0f,
-      +1.0f, -1.0f,
+    +0.0f, +1.0f,
+    -1.0f, -1.0f,
+    +1.0f, -1.0f,
     };
+  */
+  GenVAO();
+  //glGenVertexArrays(1, &vao);
+  //glBindVertexArray(vao);
 
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
+  /*glGenBuffers(1, &vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
 
-  glGenBuffers(1, &vbo);
-  glBindBuffer(GL_ARRAY_BUFFER, vbo);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    glBindVertexArray(0);
 
-  glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-  glBindVertexArray(0);
-
-  glDeleteBuffers(1, &vbo);
+    glDeleteBuffers(1, &vbo);*/
 }

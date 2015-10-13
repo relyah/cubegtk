@@ -27,6 +27,10 @@ void Camera::Init() {
 
   glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
   glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
+
+    sstm.str(std::string());
+    sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
+  logger->info(sstm.str());
 }
 
 void Camera::Render() {

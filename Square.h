@@ -20,6 +20,7 @@ public:
   void Shutdown();
 
 private:
+  std::stringstream sstm;
   log4cpp::Category* logger;
   IOpenGLProgram* program;
   IModel* model;

@@ -5,6 +5,10 @@ void AbstractOpenGLProgram::GenVAO() {
     glGenVertexArrays(1, &vao);
   }
   glBindVertexArray(vao);
+
+  sstm.str(std::string());
+  sstm << "vao: " << vao << std::endl;
+  logger->info(sstm.str());
 }
 
 void AbstractOpenGLProgram::Shutdown() {

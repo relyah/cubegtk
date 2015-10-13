@@ -17,6 +17,10 @@ void Square::Init() {
   attribute_vc = program->GetAttrib("vc");
 
   uniform_m = program->GetUniform("model");
+
+  sstm.str(std::string());
+  sstm << "attributes vp: " << attribute_vp << ", vn: " << attribute_vn << ", vc: " << attribute_vc << ", uniform m: " << uniform_m << std::endl;
+  logger->info(sstm.str());
 }
 
 void Square::FillVBO() {
@@ -28,19 +32,21 @@ void Square::FillVBO() {
   };
   unsigned short pointsIndex[] = {0,1,2,2,3,0};
 
+  glUseProgram(program->GetProgram());
   program->GenVAO();
 
   glGenBuffers(1, &vboPoints);
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
-  //sstm << "vboPoints: " << vboPoints << std::endl;
-  //logger->info(sstm.str());
+  sstm.str(std::string());
+  sstm << "vboPoints: " << vboPoints << std::endl;
+  logger->info(sstm.str());
   glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(VertexStructure), points, GL_STATIC_DRAW);
 
   glGenBuffers(1, &iboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
-  //sstm.str(std::string());
-  //sstm << "iboPoints: " << iboPoints << std::endl;
-  //logger->info(sstm.str());
+  sstm.str(std::string());
+  sstm << "iboPoints: " << iboPoints << std::endl;
+  logger->info(sstm.str());
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,6*sizeof(unsigned short), pointsIndex, GL_STATIC_DRAW);
 
   glEnableVertexAttribArray(attribute_vp);

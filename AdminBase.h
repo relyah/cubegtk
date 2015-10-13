@@ -10,6 +10,7 @@ public:
   ~AdminBase();
 
 protected:
+  std::stringstream sstm;
   log4cpp::Category* logger;
 };
 
