@@ -38,7 +38,7 @@ void OpenGLApplication::Init() {
 }
 
 void OpenGLApplication::Render() {
-  logger->info("Render OpenGLApplication...");
+  //logger->info("Render OpenGLApplication...");
 
   program->Render();
 }

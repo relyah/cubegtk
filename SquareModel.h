@@ -20,7 +20,7 @@ public:
   virtual void OnKeyReleased(int key);
 
 private:
-  //std::stringstream sstm;
+    std::stringstream sstm;
   log4cpp::Category* logger;
   bool isChanged;
   glm::mat4 matrix;

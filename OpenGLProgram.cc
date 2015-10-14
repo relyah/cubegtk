@@ -31,7 +31,7 @@ void OpenGLProgram::Init() {
 
 void OpenGLProgram::Render() {
 
-  logger->info("Program rendering...");
+  //logger->info("Program rendering...");
 
   glUseProgram(GetProgram());
   GenVAO(); //glBindVertexArray(vao);

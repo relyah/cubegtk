@@ -63,7 +63,7 @@ void Square::FillVBO() {
 
 void Square::Render() {
   if (model->IsChanged()) {
-    logger->info("Square updating...");
+    //logger->info("Square updating...");
     glm::mat4 modelMatrix = model->GetModel();
     glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
   }

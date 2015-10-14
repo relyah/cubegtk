@@ -27,10 +27,10 @@ static gboolean key_release_event(GtkWidget *widget,
                GdkEvent  *event,
                   gpointer   user_data) {
 
-  std::stringstream sstm;
-  sstm.str(std::string());
-  sstm << "Key pressed " << ((GdkEventKey*)event)->keyval << std::endl;
-  logger->info(sstm.str());
+  //std::stringstream sstm;
+  //sstm.str(std::string());
+  //sstm << "Key pressed " << ((GdkEventKey*)event)->keyval << std::endl;
+  //logger->info(sstm.str());
 
   app->OnKeyReleased(((GdkEventKey*)event)->keyval);
 
