@@ -25,15 +25,13 @@ void OpenGLProgram::Init() {
   object->Init();
   camera->Init();
 
-
   object->FillVBO();
-
-
 
 }
 
 void OpenGLProgram::Render() {
-  
+
+  logger->info("Program rendering...");
 
   glUseProgram(GetProgram());
   GenVAO(); //glBindVertexArray(vao);

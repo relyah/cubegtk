@@ -9,15 +9,19 @@
 #include "IModel.h"
 #include "SquareModel.h"
 #include "Camera.h"
+#include "IKeyReleasedListener.h"
+#include "InputManager.h"
 
-class OpenGLApplication : public AdminBase {
+class OpenGLApplication : public AdminBase, IKeyReleasedListener {
 public:
   OpenGLApplication(int screenWidth, int screenHeight);
-  ~OpenGLApplication();
+  virtual ~OpenGLApplication();
 
   void Init();
   void Render();
   void Shutdown();
+
+  void OnKeyReleased(int key);
 
 private:
   int screenWidth;
@@ -25,8 +29,9 @@ private:
   OpenGLManager *manager;
   OpenGLProgram *program;
   IObject *square;
-  IModel *model;
+  SquareModel *model;
   Camera* camera;
+  InputManager* inputManager;
 };
 
 #endif

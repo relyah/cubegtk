@@ -5,6 +5,7 @@
 #include <epoxy/gl.h>
 #include <gtk/gtk.h>
 
+#include "Logger.h"
 #include "OpenGLApplication.h"
 
 //fool compile into thinking a variable is using. prevents warnings
@@ -15,12 +16,26 @@
   }
 
 OpenGLApplication *app;
+log4cpp::Category* logger = Logger::GetLogger();
 
 static void on_window_closed (GtkWidget *widget, gpointer data)
 {
   gtk_main_quit ();
 }
 
+static gboolean key_release_event(GtkWidget *widget,
+               GdkEvent  *event,
+                  gpointer   user_data) {
+
+  std::stringstream sstm;
+  sstm.str(std::string());
+  sstm << "Key pressed " << ((GdkEventKey*)event)->keyval << std::endl;
+  logger->info(sstm.str());
+
+  app->OnKeyReleased(((GdkEventKey*)event)->keyval);
+
+  gtk_widget_queue_draw(widget);
+}
 /*static GdkGLContext* create_context (GtkGLArea *area,
   gpointer   user_data) {
 
@@ -92,6 +107,8 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(realize),0);
   } else if (g_strcmp0(handler_name, "unrealize")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(unrealize),user_data);
+  } else if (g_strcmp0(handler_name, "key_release_event")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(key_release_event),user_data);
   } else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }

@@ -6,6 +6,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
 
   manager = new OpenGLManager();
   program = new OpenGLProgram();
+  inputManager = new InputManager();
 
   model = new SquareModel();
   square = new Square(program, model);
@@ -13,6 +14,9 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
 
   program->SetCamera(camera);
   program->AddObject(square);
+
+  inputManager->RegisterListener(model);
+
 }
 
 OpenGLApplication::~OpenGLApplication() {
@@ -21,6 +25,7 @@ OpenGLApplication::~OpenGLApplication() {
   delete camera;
   delete program;
   delete manager;
+  delete inputManager;
   logger->info("Stopped OpenGLApplication.");
   logger = 0;
 }
@@ -40,4 +45,8 @@ void OpenGLApplication::Render() {
 
 void OpenGLApplication::Shutdown() {
   logger->info("Shutdown OpenGLApplication...");
+}
+
+void OpenGLApplication::OnKeyReleased(int key) {
+  inputManager->OnKeyReleased(key);
 }

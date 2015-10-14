@@ -12,6 +12,7 @@ public:
 
   virtual ~IModel() {}
 
+  virtual bool IsChanged() = 0;
   virtual glm::mat4 GetModel() = 0;
 };
 

@@ -62,8 +62,11 @@ void Square::FillVBO() {
 }
 
 void Square::Render() {
-  glm::mat4 modelMatrix = model->GetModel();
-  glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
+  if (model->IsChanged()) {
+    logger->info("Square updating...");
+    glm::mat4 modelMatrix = model->GetModel();
+    glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
+  }
 
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
