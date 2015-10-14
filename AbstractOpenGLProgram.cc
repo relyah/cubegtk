@@ -1,5 +1,9 @@
 #include "AbstractOpenGLProgram.h"
 
+void AbstractOpenGLProgram::Use() {
+  glUseProgram(this->program);
+}
+
 void AbstractOpenGLProgram::GenVAO() {
   if (vao==0) {
     glGenVertexArrays(1, &vao);

@@ -12,6 +12,8 @@ Square::~Square() {
 
 void Square::Init() {
 
+  program->Use();
+
   attribute_vp = program->GetAttrib("vp");
   attribute_vn = program->GetAttrib("vn");
   attribute_vc = program->GetAttrib("vc");

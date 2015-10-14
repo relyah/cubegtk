@@ -7,6 +7,7 @@
 class AbstractOpenGLProgram :public IOpenGLProgram,  public AdminBase {
 
 public:
+  virtual void Use();
   virtual void GenVAO();
   virtual void Shutdown();
 

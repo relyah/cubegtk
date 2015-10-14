@@ -22,8 +22,7 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
-  //glUseProgram(program->GetProgram());
-  //program->GenVAO();
+  program->Use();
   
   uniform_v = program->GetUniform("view");
   uniform_p = program->GetUniform("projection");

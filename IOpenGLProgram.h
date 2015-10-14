@@ -8,6 +8,7 @@ class IOpenGLProgram {
 public:
   virtual ~IOpenGLProgram() {}
 
+  virtual void Use() =0;
   virtual GLuint GetProgram() = 0;
   virtual GLint GetAttrib(const char *name) = 0;
   virtual GLint GetUniform(const char *name) = 0;
