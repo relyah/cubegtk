@@ -65,3 +65,13 @@ void Camera::OnScroll(GdkScrollDirection dir) {
 
   isUpdateCamera = true;
 }
+
+void Camera::OnDrag(double x, double y) {
+  //if (isFirstMove) {
+//
+  // }
+}
+
+void Camera::OnButtonPressed(int button, double x, double y) {
+
+}

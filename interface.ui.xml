@@ -29,11 +29,13 @@
   </object>
   
   <object class="GtkWindow" id="CubeVisor" >
-        <property name="default_width">640</property>
+    <property name="default_width">640</property>
     <property name="default_height">480</property>
     <signal name="destroy" handler="gtk_main_quit"/>
     <signal name="key-release-event" handler="key_release_event" />
     <signal name="scroll-event" handler="scroll_event" />
+    <signal name="button-press-event" handler="button_press_event" />
+    <signal name="motion-notify-event" handler="motion_notify_event" />
     <child>
       <object class="GtkVBox" id="vbox-layout">
         <property name="homogeneous">FALSE</property>

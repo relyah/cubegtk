@@ -11,8 +11,10 @@
 #include "Logger.h"
 #include "IOpenGLProgram.h"
 #include "IScrollListener.h"
+#include "IDragListener.h"
+#include "IButtonPressedListener.h"
 
-class Camera : public IScrollListener {
+class Camera : public IScrollListener, public IDragListener, public IButtonPressedListener {
 
 public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
@@ -23,6 +25,8 @@ public:
   void Shutdown();
 
   void OnScroll(GdkScrollDirection dir);
+  void OnDrag(double x, double y);
+  void OnButtonPressed(int button, double x, double y);
 
 private:
   std::stringstream sstm;

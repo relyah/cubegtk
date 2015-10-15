@@ -16,7 +16,9 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(square);
 
   inputManager->RegisterListener(model);
-  inputManager->RegisterListener(camera);
+  inputManager->RegisterListener((IScrollListener*)camera);
+  inputManager->RegisterListener((IDragListener*)camera);
+  inputManager->RegisterListener((IButtonPressedListener*)camera);
 
 }
 
@@ -54,4 +56,12 @@ void OpenGLApplication::OnKeyReleased(int key) {
 
 void OpenGLApplication::OnScroll(GdkScrollDirection dir) {
   inputManager->OnScroll(dir);
+}
+
+void OpenGLApplication::OnDrag(double x, double y) {
+  inputManager->OnDrag(x,y);
+}
+
+void OpenGLApplication::OnButtonPressed(int button, double x, double y) {
+  inputManager->OnButtonPressed(button,x,y);
 }

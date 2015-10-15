@@ -49,6 +49,40 @@ static void scroll_event(GtkWindow *widget,
   gtk_widget_queue_draw((GtkWidget*)widget);
 }
 
+static void motion_notify_event(GtkWindow *widget,
+                                GdkEvent  *event,
+                                gpointer   user_data) {
+  //logger->info("got motion.");
+  //printf("got scroll.");
+  //app->OnScroll(((GdkEventScroll*)event)->direction);
+
+  //gtk_widget_queue_draw((GtkWidget*)widget);
+
+  GdkEventMotion *evtMotion = (GdkEventMotion*)event;
+
+  //std::stringstream sstm;
+  //sstm.str(std::string());
+  //sstm << "State " << evtMotion->state << " " << GDK_BUTTON1_MASK << " " << (evtMotion->state & GDK_BUTTON1_MASK) << std::endl;
+  //logger->info(sstm.str());
+
+  if (((evtMotion->state) & GDK_BUTTON1_MASK)> 1) {
+    //logger->info("got motion.");
+    app->OnDrag(evtMotion->x,evtMotion->y);
+    gtk_widget_queue_draw((GtkWidget*)widget);
+  }
+}
+
+static void button_press_event(GtkWindow *widget,
+                               GdkEvent  *event,
+                               gpointer   user_data) {
+
+  GdkEventButton* evtBtn = (GdkEventButton*)event;
+  app->OnButtonPressed(evtBtn->button, evtBtn->x, evtBtn->y);
+
+  gtk_widget_queue_draw((GtkWidget*)widget);
+}
+
+
 /*static GdkGLContext* create_context (GtkGLArea *area,
   gpointer   user_data) {
 
@@ -124,7 +158,11 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(key_release_event),user_data);
   } else if (g_strcmp0(handler_name, "scroll_event")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(scroll_event),user_data);
-  }  else {
+  } else if (g_strcmp0(handler_name, "motion_notify_event")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(motion_notify_event),user_data);
+  } else if (g_strcmp0(handler_name, "button_press_event")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(button_press_event),user_data);
+  } else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }
 }
@@ -144,6 +182,8 @@ int main (int argc, char *argv[])
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
   gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
+  //gtk_widget_add_events(GTK_WIDGET(window), GDK_BUTTON_PRESS);
+  //gtk_widget_add_events(GTK_WIDGET(window), GDK_POINTER_MOTION_MASK);
   gtk_widget_show_all (window);
   gtk_main ();
   return 0;

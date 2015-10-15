@@ -9,10 +9,9 @@
 #include "IModel.h"
 #include "SquareModel.h"
 #include "Camera.h"
-#include "IKeyReleasedListener.h"
 #include "InputManager.h"
 
-class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener {
+class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener, public IDragListener, IButtonPressedListener {
 public:
   OpenGLApplication(int screenWidth, int screenHeight);
   virtual ~OpenGLApplication();
@@ -23,6 +22,8 @@ public:
 
   void OnKeyReleased(int key);
   void OnScroll(GdkScrollDirection dir);
+  void OnDrag(double x, double y);
+  void OnButtonPressed(int button, double x, double y);
 
 private:
   int screenWidth;
