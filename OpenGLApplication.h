@@ -11,7 +11,7 @@
 #include "Camera.h"
 #include "InputManager.h"
 
-class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener, public IDragListener, IButtonPressedListener {
+class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener, public IDragListener, IButtonPressedListener, IButtonReleasedListener {
 public:
   OpenGLApplication(int screenWidth, int screenHeight);
   virtual ~OpenGLApplication();
@@ -24,6 +24,7 @@ public:
   void OnScroll(GdkScrollDirection dir);
   void OnDrag(double x, double y);
   void OnButtonPressed(int button, double x, double y);
+  void OnButtonReleased(int button, double x, double y);
 
 private:
   int screenWidth;

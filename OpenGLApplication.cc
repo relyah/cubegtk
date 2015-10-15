@@ -19,7 +19,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   inputManager->RegisterListener((IScrollListener*)camera);
   inputManager->RegisterListener((IDragListener*)camera);
   inputManager->RegisterListener((IButtonPressedListener*)camera);
-
+  inputManager->RegisterListener((IButtonReleasedListener*)camera);
 }
 
 OpenGLApplication::~OpenGLApplication() {
@@ -64,4 +64,8 @@ void OpenGLApplication::OnDrag(double x, double y) {
 
 void OpenGLApplication::OnButtonPressed(int button, double x, double y) {
   inputManager->OnButtonPressed(button,x,y);
+}
+
+void OpenGLApplication::OnButtonReleased(int button, double x, double y) {
+  inputManager->OnButtonReleased(button,x,y);
 }

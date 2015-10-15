@@ -5,6 +5,7 @@ InputManager::InputManager() {
   scrollListeners = TScrollListeners();
   dragListeners = TDragListeners();
   buttonPressedListeners = TButtonPressedListeners();
+  buttonReleasedListeners = TButtonReleasedListeners();
 }
 
 InputManager::~InputManager() {
@@ -12,6 +13,7 @@ InputManager::~InputManager() {
   scrollListeners.clear();
   dragListeners.clear();
   buttonPressedListeners.clear();
+  buttonReleasedListeners.clear();
 }
 
 void InputManager::RegisterListener(IKeyReleasedListener *l) {
@@ -28,6 +30,10 @@ void InputManager::RegisterListener(IDragListener *l) {
 
 void InputManager::RegisterListener(IButtonPressedListener *l) {
   buttonPressedListeners.push_back(l);
+}
+
+void InputManager::RegisterListener(IButtonReleasedListener *l) {
+  buttonReleasedListeners.push_back(l);
 }
 
 void InputManager::OnKeyReleased(int key) {
@@ -61,3 +67,12 @@ void InputManager::OnButtonPressed(int button, double x, double y) {
     (*it)->OnButtonPressed(button, x,y);
   }
 }
+
+void InputManager::OnButtonReleased(int button, double x, double y) {
+  if (buttonReleasedListeners.size()==0) {return;}
+
+  for (TButtonReleasedListeners::iterator it = buttonReleasedListeners.begin() ; it != buttonReleasedListeners.end(); ++it) {
+    (*it)->OnButtonReleased(button, x,y);
+  }
+}
+
