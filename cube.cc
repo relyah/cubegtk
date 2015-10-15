@@ -24,8 +24,8 @@ static void on_window_closed (GtkWidget *widget, gpointer data)
 }
 
 static gboolean key_release_event(GtkWidget *widget,
-               GdkEvent  *event,
-                  gpointer   user_data) {
+                                  GdkEvent  *event,
+                                  gpointer   user_data) {
 
   //std::stringstream sstm;
   //sstm.str(std::string());
@@ -35,7 +35,20 @@ static gboolean key_release_event(GtkWidget *widget,
   app->OnKeyReleased(((GdkEventKey*)event)->keyval);
 
   gtk_widget_queue_draw(widget);
+
+  return true;
 }
+
+static void scroll_event(GtkWindow *widget,
+                         GdkEvent  *event,
+                         gpointer   user_data) {
+  //logger->info("got scroll.");
+  //printf("got scroll.");
+  app->OnScroll(((GdkEventScroll*)event)->direction);
+
+  gtk_widget_queue_draw((GtkWidget*)widget);
+}
+
 /*static GdkGLContext* create_context (GtkGLArea *area,
   gpointer   user_data) {
 
@@ -109,7 +122,9 @@ static void connection_mapper (GtkBuilder *builder, GObject *object,
     g_signal_connect(object,signal_name,G_CALLBACK(unrealize),user_data);
   } else if (g_strcmp0(handler_name, "key_release_event")==0) {
     g_signal_connect(object,signal_name,G_CALLBACK(key_release_event),user_data);
-  } else {
+  } else if (g_strcmp0(handler_name, "scroll_event")==0) {
+    g_signal_connect(object,signal_name,G_CALLBACK(scroll_event),user_data);
+  }  else {
     g_print ("unbekannte Callback %s %s\n",handler_name, signal_name);
   }
 }
@@ -128,6 +143,7 @@ int main (int argc, char *argv[])
   //gtk_builder_connect_signals (builder, builder);
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
+  gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
   gtk_widget_show_all (window);
   gtk_main ();
   return 0;

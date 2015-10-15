@@ -16,6 +16,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(square);
 
   inputManager->RegisterListener(model);
+  inputManager->RegisterListener(camera);
 
 }
 
@@ -49,4 +50,8 @@ void OpenGLApplication::Shutdown() {
 
 void OpenGLApplication::OnKeyReleased(int key) {
   inputManager->OnKeyReleased(key);
+}
+
+void OpenGLApplication::OnScroll(GdkScrollDirection dir) {
+  inputManager->OnScroll(dir);
 }

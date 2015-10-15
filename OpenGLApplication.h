@@ -12,7 +12,7 @@
 #include "IKeyReleasedListener.h"
 #include "InputManager.h"
 
-class OpenGLApplication : public AdminBase, IKeyReleasedListener {
+class OpenGLApplication : public AdminBase, public IKeyReleasedListener, public IScrollListener {
 public:
   OpenGLApplication(int screenWidth, int screenHeight);
   virtual ~OpenGLApplication();
@@ -22,6 +22,7 @@ public:
   void Shutdown();
 
   void OnKeyReleased(int key);
+  void OnScroll(GdkScrollDirection dir);
 
 private:
   int screenWidth;

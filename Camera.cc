@@ -22,13 +22,14 @@ Camera::~Camera() {
 }
 
 void Camera::Init() {
+  isUpdateCamera = true;
   program->Use();
   
   uniform_v = program->GetUniform("view");
   uniform_p = program->GetUniform("projection");
 
-  glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
-  glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
+  //glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
+  //glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
 
   sstm.str(std::string());
   sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
@@ -36,10 +37,31 @@ void Camera::Init() {
 }
 
 void Camera::Render() {
-  //glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
-  // glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
+  if (isUpdateCamera) {
+    isUpdateCamera = false;
+    glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
+    glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
+  }
 }
 
 void Camera::Shutdown() {
   program=0;
+}
+
+void Camera::OnScroll(GdkScrollDirection dir) {
+  float  zoomDelta = 0.0f;
+
+  if (dir==GDK_SCROLL_UP) {
+    zoomDelta = 0.1f;
+  } else if (dir==GDK_SCROLL_DOWN) {
+    zoomDelta = -0.1f;
+  } else {
+    return;
+  }
+
+  glm::vec3 d = zoomDelta*glm::normalize(cameraLookAt - cameraPosition);
+  cameraPosition = cameraPosition +  d;
+  view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+
+  isUpdateCamera = true;
 }

@@ -10,16 +10,19 @@
 
 #include "Logger.h"
 #include "IOpenGLProgram.h"
+#include "IScrollListener.h"
 
-class Camera {
+class Camera : public IScrollListener {
 
 public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
-  ~Camera();
+  virtual ~Camera();
 
   void Init();
   void Render();
   void Shutdown();
+
+  void OnScroll(GdkScrollDirection dir);
 
 private:
   std::stringstream sstm;
@@ -29,6 +32,7 @@ private:
   int screenHeight;
   GLint uniform_p;
   GLint uniform_v;
+  bool isUpdateCamera;
   glm::vec3 cameraPosition;
   glm::vec3 cameraLookAt;
   glm::vec3 cameraUp;

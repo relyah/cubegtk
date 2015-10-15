@@ -33,7 +33,7 @@ Square.o: Square.cc Square.h IObject.h IModel.h DataStructures.h
 SquareModel.o: SquareModel.cc SquareModel.h IModel.h IKeyReleasedListener.h
 	g++ SquareModel.cc ${CFLAGS} -c
 
-Camera.o: Camera.cc Camera.h IOpenGLProgram.h
+Camera.o: Camera.cc Camera.h IOpenGLProgram.h IScrollListener.h
 	g++ Camera.cc ${CFLAGS} -c
 
 AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h IOpenGLProgram.h
