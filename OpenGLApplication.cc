@@ -15,7 +15,8 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->SetCamera(camera);
   program->AddObject(square);
 
-  inputManager->RegisterListener(model);
+  inputManager->RegisterListener((IKeyReleasedListener*)model);
+  inputManager->RegisterListener((IKeyReleasedListener*)camera);
   inputManager->RegisterListener((IScrollListener*)camera);
   inputManager->RegisterListener((IDragListener*)camera);
   inputManager->RegisterListener((IButtonPressedListener*)camera);

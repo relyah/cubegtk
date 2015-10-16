@@ -14,8 +14,9 @@
 #include "IDragListener.h"
 #include "IButtonPressedListener.h"
 #include "IButtonReleasedListener.h"
+#include "IKeyReleasedListener.h"
 
-class Camera : public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener {
+class Camera : public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener, public IKeyReleasedListener {
 
 public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
@@ -25,10 +26,11 @@ public:
   void Render();
   void Shutdown();
 
-  void OnScroll(GdkScrollDirection dir);
-  void OnDrag(double x, double y);
-  void OnButtonPressed(int button, double x, double y);
-  void OnButtonReleased(int button, double x, double y);
+  virtual void OnScroll(GdkScrollDirection dir);
+  virtual void OnDrag(double x, double y);
+  virtual void OnButtonPressed(int button, double x, double y);
+  virtual void OnButtonReleased(int button, double x, double y);
+  virtual void OnKeyReleased(int key);
 
 private:
   std::stringstream sstm;
@@ -50,7 +52,7 @@ private:
   glm::vec2 cameraRotate;
 
   void ZoomCamera();
-
+  void Reset();
 };
 
 #endif

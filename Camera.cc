@@ -4,18 +4,7 @@ Camera::Camera(IOpenGLProgram *program, int screenWidth, int screenHeight)
   : program(program), screenWidth(screenWidth), screenHeight(screenHeight){
   logger = Logger::GetLogger();
 
-  cameraPosition = cameraOrigPos = glm::vec3(0.0, 0.0, 5.0);  // the position of your camera, in world space
-  cameraLookAt = glm::vec3(0.0, 0.0, 0.0);  // where you want to look at, in world space
-	cameraUp = glm::vec3(0.0, 1.0, 0.0); //up direction; probably glm::vec3(0,1,0), but (0,-1,0) would make you looking upside-down, which can be great too
-	//cameraRight = glm::vec3(1.0, 0.0, 0.0);
-
-  cameraRotate = glm::vec2(0.0f, 0.0f);
-
-  view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
-
-  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
-
-
+  Reset();
 }
 
 Camera::~Camera() {
@@ -113,6 +102,14 @@ void Camera::OnButtonReleased(int button, double x, double y) {
   //logger->info("released");
 }
 
+void Camera::OnKeyReleased(int key) {
+  switch (key) {
+  case GDK_KEY_r:
+    Reset();
+    break;
+  }
+}
+
 void Camera::ZoomCamera() {
 
   glm::mat4 rotX = glm::mat4(1.0f);
@@ -136,4 +133,19 @@ void Camera::ZoomCamera() {
   sstm.str(std::string());
   sstm << "zoomDelta: " << zoomDelta << " d: "<< d.x << "," << d.y << std::endl;
   logger->info(sstm.str());
+}
+
+void Camera::Reset() {
+  cameraPosition = cameraOrigPos = glm::vec3(0.0, 0.0, 5.0);  // the position of your camera, in world space
+  cameraLookAt = glm::vec3(0.0, 0.0, 0.0);  // where you want to look at, in world space
+	cameraUp = glm::vec3(0.0, 1.0, 0.0); //up direction; probably glm::vec3(0,1,0), but (0,-1,0) would make you looking upside-down, which can be great too
+	//cameraRight = glm::vec3(1.0, 0.0, 0.0);
+
+  cameraRotate = glm::vec2(0.0f, 0.0f);
+
+  view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
+
+  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
+
+  isCameraUpdated = true;
 }

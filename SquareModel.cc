@@ -3,6 +3,7 @@
 SquareModel::SquareModel() {
   logger = Logger::GetLogger();
   isChanged = true;
+  Reset();
 }
 
 SquareModel::~SquareModel() {
@@ -50,7 +51,16 @@ void SquareModel::OnKeyReleased(int key) {
     ypos -= yinc;
     isChanged = true;
     break;
+  case GDK_KEY_r:
+    Reset();
+    isChanged = true;
+    break;
   default: break;
 
   }
+}
+
+void SquareModel::Reset() {
+  xinc = 0.1f; yinc=0.1f;
+  xpos = 0.0f; ypos=0.0f;
 }

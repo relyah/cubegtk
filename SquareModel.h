@@ -20,12 +20,14 @@ public:
   virtual void OnKeyReleased(int key);
 
 private:
-    std::stringstream sstm;
+  std::stringstream sstm;
   log4cpp::Category* logger;
   bool isChanged;
   glm::mat4 matrix;
-  float xinc = 0.1f, yinc=0.1f;
-  float xpos = 0.0f, ypos=0.0f;
+  float xinc, yinc;
+  float xpos, ypos;
+
+  void Reset();
 };
 
 #endif
