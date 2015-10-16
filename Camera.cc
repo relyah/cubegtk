@@ -89,8 +89,10 @@ void Camera::OnDrag(double x, double y) {
     //sstm << "cr.X: " << cameraRotate.x  << " cr.Y: " << cameraRotate.y << std::endl;
     //logger->info(sstm.str());
 
-    glm::mat4 rot = glm::mat4(1.0f);
-    float rad = glm::radians(cameraRotate.x);
+    glm::mat4 rotX = glm::mat4(1.0f);
+    glm::mat4 rotY = glm::mat4(1.0f);
+    float radX = glm::radians(cameraRotate.y);
+    float radY = glm::radians(cameraRotate.x);
 
     //sstm.str(std::string());
     //sstm << "rad: " << rad << std::endl;
@@ -98,8 +100,9 @@ void Camera::OnDrag(double x, double y) {
 
     //sstm << "rad: " << rad  << std::endl;
     //logger->info(sstm.str());
-    rot = glm::rotate(rot,rad,glm::vec3(0.0,1.0f,0.0));
-    cameraPosition = glm::vec3(rot * glm::vec4(cameraOrigPos,1.0f));
+    rotX = glm::rotate(rotX,radX,glm::vec3(1.0f,0.0,0.0));
+    rotY = glm::rotate(rotY,radY,glm::vec3(0.0,1.0f,0.0));
+    cameraPosition = glm::vec3(rotY * rotX * glm::vec4(cameraOrigPos,1.0f));
     ZoomCamera();
 
     //cameraPosition += glm::vec3(0.01f*(float)delta.x,0.0f,0.0f); //0.01f*(float)delta.y
