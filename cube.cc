@@ -66,7 +66,7 @@ static void motion_notify_event(GtkWindow *widget,
   //logger->info(sstm.str());
 
   if (((evtMotion->state) & GDK_BUTTON1_MASK)> 1) {
-    //logger->info("got motion.");
+    logger->info("got motion.");
     app->OnDrag(evtMotion->x,evtMotion->y);
     gtk_widget_queue_draw((GtkWidget*)widget);
   }
@@ -76,6 +76,7 @@ static void button_press_event(GtkWindow *widget,
                                GdkEvent  *event,
                                gpointer   user_data) {
 
+  logger->info("c pressed");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
   app->OnButtonPressed(evtBtn->button, evtBtn->x, evtBtn->y);
 
@@ -86,6 +87,7 @@ static void button_release_event(GtkWindow *widget,
                                GdkEvent  *event,
                                gpointer   user_data) {
 
+  logger->info("c released");
   GdkEventButton* evtBtn = (GdkEventButton*)event;
   app->OnButtonReleased(evtBtn->button, evtBtn->x, evtBtn->y);
 
@@ -193,7 +195,7 @@ int main (int argc, char *argv[])
   //gtk_builder_connect_signals (builder, builder);
   gtk_builder_connect_signals_full (builder, connection_mapper, NULL);
   window = GTK_WIDGET(gtk_builder_get_object (builder, "CubeVisor"));
-  gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
+  //gtk_widget_add_events(GTK_WIDGET(window), GDK_SCROLL_MASK);
   //gtk_widget_add_events(GTK_WIDGET(window), GDK_BUTTON_PRESS);
   //gtk_widget_add_events(GTK_WIDGET(window), GDK_POINTER_MOTION_MASK);
   gtk_widget_show_all (window);

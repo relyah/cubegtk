@@ -33,7 +33,7 @@ void OpenGLProgram::Render() {
 
   //logger->info("Program rendering...");
 
-  glUseProgram(GetProgram());
+  Use();
   GenVAO(); //glBindVertexArray(vao);
   //glDrawArrays(GL_TRIANGLES, 0, 3);
 
