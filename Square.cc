@@ -68,6 +68,10 @@ void Square::Render() {
     glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
   }
 
+    sstm.str(std::string());
+  sstm << "vboPoints: " << vboPoints << std::endl;
+  logger->info(sstm.str());
+  
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,0);

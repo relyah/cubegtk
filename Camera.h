@@ -9,6 +9,7 @@
 #include <epoxy/gl.h>
 
 #include "Logger.h"
+#include "DataStructures.h"
 #include "IOpenGLProgram.h"
 #include "IScrollListener.h"
 #include "IDragListener.h"
@@ -51,8 +52,11 @@ private:
   glm::vec2 cursor;
   glm::vec2 cameraRotate;
 
+  GLuint vboPoints;
+
   void ZoomCamera();
   void Reset();
+  void RenderRay();
 };
 
 #endif

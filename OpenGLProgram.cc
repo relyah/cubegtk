@@ -23,9 +23,10 @@ void OpenGLProgram::Init() {
   InitVAO();
 
   object->Init();
+  object->FillVBO();
   camera->Init();
 
-  object->FillVBO();
+
 
 }
 
