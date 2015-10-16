@@ -55,13 +55,14 @@ void Camera::OnScroll(GdkScrollDirection dir) {
   //float  zoomDelta = 0.0f;
 
   if (dir==GDK_SCROLL_UP) {
-    zoomDelta = 0.1f;
+    zoomDelta += 0.1f;
   } else if (dir==GDK_SCROLL_DOWN) {
-    zoomDelta = -0.1f;
+    zoomDelta += -0.1f;
   } else {
     return;
   }
 
+  cameraPosition = cameraOrigPos;
   ZoomCamera();
 
   isCameraUpdated = true;
@@ -89,25 +90,10 @@ void Camera::OnDrag(double x, double y) {
     //sstm << "cr.X: " << cameraRotate.x  << " cr.Y: " << cameraRotate.y << std::endl;
     //logger->info(sstm.str());
 
-    glm::mat4 rotX = glm::mat4(1.0f);
-    glm::mat4 rotY = glm::mat4(1.0f);
-    float radX = glm::radians(cameraRotate.y);
-    float radY = glm::radians(cameraRotate.x);
-
-    //sstm.str(std::string());
-    //sstm << "rad: " << rad << std::endl;
-    //logger->info(sstm.str());
-
-    //sstm << "rad: " << rad  << std::endl;
-    //logger->info(sstm.str());
-    rotX = glm::rotate(rotX,radX,glm::vec3(1.0f,0.0,0.0));
-    rotY = glm::rotate(rotY,radY,glm::vec3(0.0,1.0f,0.0));
-    cameraPosition = glm::vec3(rotY * rotX * glm::vec4(cameraOrigPos,1.0f));
+  
     ZoomCamera();
 
-    //cameraPosition += glm::vec3(0.01f*(float)delta.x,0.0f,0.0f); //0.01f*(float)delta.y
-
-    
+    //cameraPosition += glm::vec3(0.01f*(float)delta.x,0.0f,0.0f); //0.01f*(float)delta.y 
 
     cursor = glm::vec2(x,y);
     isCameraUpdated = true;
@@ -128,6 +114,26 @@ void Camera::OnButtonReleased(int button, double x, double y) {
 }
 
 void Camera::ZoomCamera() {
+
+  glm::mat4 rotX = glm::mat4(1.0f);
+  glm::mat4 rotY = glm::mat4(1.0f);
+  float radX = glm::radians(cameraRotate.y);
+  float radY = glm::radians(cameraRotate.x);
+
+  //sstm.str(std::string());
+  //sstm << "rad: " << rad << std::endl;
+  //logger->info(sstm.str());
+
+  //sstm << "rad: " << rad  << std::endl;
+  //logger->info(sstm.str());
+  rotX = glm::rotate(rotX,radX,glm::vec3(1.0f,0.0,0.0));
+  rotY = glm::rotate(rotY,radY,glm::vec3(0.0,1.0f,0.0));
+  cameraPosition = glm::vec3(rotY * rotX * glm::vec4(cameraOrigPos,1.0f));
+
   glm::vec3 d = zoomDelta*glm::normalize(cameraLookAt - cameraPosition);
   cameraPosition = cameraPosition +  d;
+
+  sstm.str(std::string());
+  sstm << "zoomDelta: " << zoomDelta << " d: "<< d.x << "," << d.y << std::endl;
+  logger->info(sstm.str());
 }
