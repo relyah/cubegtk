@@ -4,10 +4,11 @@
 #include "Logger.h"
 #include "DataStructures.h"
 #include "IObject.h"
+#include "AbstractObject.h"
 #include "IOpenGLProgram.h"
 #include "IModel.h"
 
-class Square  : public IObject {
+class Square  : public AbstractObject {
 
 public:
 
@@ -22,7 +23,6 @@ private:
   std::stringstream sstm;
   log4cpp::Category* logger;
   IOpenGLProgram* program;
-  GLuint vao;
   IModel* model;
 
   GLuint vboPoints;
@@ -30,7 +30,7 @@ private:
   GLuint attribute_vp, attribute_vn, attribute_vc;
   GLint uniform_m;
 
-  void Gen();
+  virtual void Gen();
   void FillVBO();
 };
 

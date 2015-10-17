@@ -46,6 +46,7 @@ GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *
 		glDeleteProgram(program);
 		return 0;
 	}
+  return this->program;
 }
 
 GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {

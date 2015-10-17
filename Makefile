@@ -12,8 +12,8 @@ LIBS = -lGL -lepoxy -llog4cpp
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o interface.ui.xml
-	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o
+cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o interface.ui.xml
+	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o
 
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
@@ -35,6 +35,9 @@ SquareModel.o: SquareModel.cc SquareModel.h IModel.h IKeyReleasedListener.h
 
 Camera.o: Camera.cc Camera.h IOpenGLProgram.h IScrollListener.h
 	g++ Camera.cc ${CFLAGS} -c
+
+AbstractObject.o: AbstractObject.cc AbstractObject.h
+	g++ AbstractObject.cc ${CFLAGS} -c
 
 AbstractOpenGLProgram.o: AbstractOpenGLProgram.cc AbstractOpenGLProgram.h IOpenGLProgram.h
 	g++ AbstractOpenGLProgram.cc ${CFLAGS} -c

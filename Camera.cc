@@ -12,12 +12,6 @@ Camera::~Camera() {
   logger = 0;
 }
 
-void Camera::Gen() {
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-  glGenBuffers(1,&vboPoints);
-}
-
 void Camera::Init() {
   Gen();
   isCameraUpdated = true;
@@ -60,9 +54,14 @@ void Camera::Init() {
   logger->info(sstm.str());
 }
 
+void Camera::Gen() {
+  AbstractObject::Gen();
+  glGenBuffers(1,&vboPoints);
+}
+
 void Camera::Render() {
   if (isCameraUpdated) {
-    glBindVertexArray(vao);
+    Bind();
     isCameraUpdated = false;
     glm::mat4 model = glm::mat4(1.0f);
     glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(model));
@@ -80,9 +79,9 @@ void Camera::Render() {
 }
 
 void Camera::Shutdown() {
+  AbstractObject::Shutdown();
   program=0;
   glDeleteBuffers(1,&vboPoints);
-  glDeleteVertexArrays(1,&vao);
 }
 
 void Camera::OnScroll(GdkScrollDirection dir) {

@@ -10,6 +10,7 @@
 
 #include "Logger.h"
 #include "DataStructures.h"
+#include "AbstractObject.h"
 #include "IOpenGLProgram.h"
 #include "IScrollListener.h"
 #include "IDragListener.h"
@@ -17,7 +18,7 @@
 #include "IButtonReleasedListener.h"
 #include "IKeyReleasedListener.h"
 
-class Camera : public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener, public IKeyReleasedListener {
+class Camera :public AbstractObject, public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener, public IKeyReleasedListener {
 
 public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
@@ -37,9 +38,9 @@ private:
   std::stringstream sstm;
   log4cpp::Category* logger;
   IOpenGLProgram *program;
+  GLuint vboPoints;
   int screenWidth;
   int screenHeight;
-  GLuint vao;
   GLint uniform_m;
   GLint uniform_v;
   GLint uniform_p;
@@ -54,9 +55,7 @@ private:
   glm::vec2 cursor;
   glm::vec2 cameraRotate;
 
-  GLuint vboPoints;
-
-  void Gen();
+  virtual void Gen();
   void ZoomCamera();
   void Reset();
   void RenderRay();

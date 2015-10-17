@@ -10,12 +10,6 @@ Square::~Square() {
   logger=0;
 }
 
-void Square::Gen() {
-  glGenVertexArrays(1, &vao);
-  glBindVertexArray(vao);
-  glGenBuffers(1, &vboPoints);
-}
-
 void Square::Init() {
 
   Gen();
@@ -31,6 +25,13 @@ void Square::Init() {
   logger->info(sstm.str());
 
   FillVBO();
+}
+
+void Square::Gen() {
+  AbstractObject::Gen();
+  //glGenVertexArrays(1, &vao);
+  //glBindVertexArray(vao);
+  glGenBuffers(1, &vboPoints);
 }
 
 void Square::FillVBO() {
@@ -70,13 +71,13 @@ void Square::FillVBO() {
 }
 
 void Square::Render() {
-  glBindVertexArray(vao);
-    
-  if (model->IsChanged()) {
-    //logger->info("Square updating...");
-    glm::mat4 modelMatrix = model->GetModel();
-    glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
-  }
+  Bind();
+
+//  if (model->IsChanged()) {
+  //logger->info("Square updating...");
+  glm::mat4 modelMatrix = model->GetModel();
+  glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
+//  }
 
   sstm.str(std::string());
   sstm << "vboPoints: " << vboPoints << std::endl;
@@ -90,8 +91,9 @@ void Square::Render() {
 }
 
 void Square::Shutdown() {
+  AbstractObject::Shutdown();
   program=0;
   model=0;
-  glDeleteVertexArrays(1,&vao);
+  //glDeleteVertexArrays(1,&vao);
 }
 
