@@ -36,6 +36,7 @@ private:
   IObject *square;
   CrossHairModel *crossHairModel;
   IObject *crossHair;
+  IObject *crossHairLocal;
   SquareModel *model;
   Camera* camera;
   InputManager* inputManager;
