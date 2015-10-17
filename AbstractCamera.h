@@ -13,6 +13,7 @@ public:
   virtual glm::mat4 GetModel();
   virtual glm::mat4 GetView();
   virtual glm::mat4 GetProjection();
+  virtual glm::vec3 GetPosition() = 0;
 
 protected:
   bool isChanged;

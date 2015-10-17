@@ -7,8 +7,11 @@
 #include "AbstractObject.h"
 #include "IOpenGLProgram.h"
 #include "IModel.h"
+#include "IHitable.h"
+#include "Ray.h"
+#include "Plane.h"
 
-class Square  : public AbstractObject {
+class Square  : public AbstractObject, public IHitable {
 
 public:
 
@@ -17,11 +20,13 @@ public:
 
   void Init();
   void Render();
-  void Shutdown();
+  virtual void Shutdown();
+
+  virtual void Intersect(Ray &ray);
 
 private:
-  std::stringstream sstm;
-  log4cpp::Category* logger;
+  //std::stringstream sstm;
+  //log4cpp::Category* logger;
 
   GLuint vboPoints;
   GLuint iboPoints;
@@ -29,6 +34,8 @@ private:
   GLint uniform_m;
   GLint uniform_v;
   GLint uniform_p;
+
+  VertexStructure points[4];
 
   virtual void Gen();
   void FillVBO();

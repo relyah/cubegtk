@@ -20,6 +20,10 @@ int Camera::GetScreenHeight() {
   return screenHeight;
 }
 
+glm::vec3 Camera::GetPosition() {
+  return cameraPosition;
+}
+
 void Camera::Init() {
   Gen();
   isChanged = true;

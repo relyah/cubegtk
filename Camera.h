@@ -37,6 +37,7 @@ public:
 
   virtual int GetScreenWidth();
   virtual int GetScreenHeight();
+  virtual glm::vec3 GetPosition();
 
 private:
   std::stringstream sstm;

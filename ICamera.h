@@ -15,6 +15,7 @@ public:
 
   virtual int GetScreenWidth() = 0;
   virtual int GetScreenHeight() = 0;
+  virtual glm::vec3 GetPosition() = 0;
 
 };
 #endif

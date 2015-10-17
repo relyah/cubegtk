@@ -22,6 +22,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(crossHairLocal);
 
   intersector = new Intersector(camera);
+  intersector->Add(dynamic_cast<IHitable*>(square));
 
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
