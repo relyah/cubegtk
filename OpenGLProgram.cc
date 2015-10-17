@@ -22,9 +22,8 @@ void OpenGLProgram::Init() {
   logger->info("Init OpenGLProgram...");
 
   InitProgram();
-  //InitVAO();
 
-  camera->Init();  
+  camera->Init();
   InitObjects();
 }
 
@@ -41,8 +40,6 @@ void OpenGLProgram::Render() {
   //logger->info("Program rendering...");
 
   Use();
-  //GenVAO(); //glBindVertexArray(vao);
-  //glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
   glClearColor(0.0, 0.1, 0.0, 1.0);

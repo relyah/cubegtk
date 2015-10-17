@@ -18,7 +18,7 @@ public:
 
   virtual void Init();
   virtual void Render();
-  //virtual void Shutdown();
+  virtual void Shutdown();
 
 private:
   GLuint vboPoints;

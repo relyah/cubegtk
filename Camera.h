@@ -11,6 +11,7 @@
 #include "Logger.h"
 #include "DataStructures.h"
 #include "AbstractObject.h"
+#include "AbstractCamera.h"
 #include "IOpenGLProgram.h"
 #include "IScrollListener.h"
 #include "IDragListener.h"
@@ -18,7 +19,7 @@
 #include "IButtonReleasedListener.h"
 #include "IKeyReleasedListener.h"
 
-class Camera :public AbstractObject, public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener, public IKeyReleasedListener {
+class Camera :public AbstractObject, public IScrollListener, public IDragListener, public IButtonPressedListener, public IButtonReleasedListener, public IKeyReleasedListener, public AbstractCamera {
 
 public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
@@ -48,8 +49,6 @@ private:
   glm::vec3 cameraPosition, cameraOrigPos;
   glm::vec3 cameraLookAt;
   glm::vec3 cameraUp;
-  glm::mat4 view;
-  glm::mat4 projection;
   float zoomDelta;
   glm::vec2 cursor;
   glm::vec2 cameraRotate;

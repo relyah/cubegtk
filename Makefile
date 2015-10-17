@@ -12,13 +12,13 @@ LIBS = -lGL -lepoxy -llog4cpp
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o interface.ui.xml
-	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o
+cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o AbstractCamera.o interface.ui.xml
+	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o AbstractCamera.o
 
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
 
-OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h IKeyReleasedListener.h
+OpenGLApplication.o: OpenGLApplication.cc OpenGLApplication.h SquareModel.o IKeyReleasedListener.h
 	g++ OpenGLApplication.cc ${CFLAGS} -c
 
 OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h IOpenGLProgram.h IObject.h
@@ -38,6 +38,9 @@ SquareModel.o: SquareModel.cc SquareModel.h IModel.h IKeyReleasedListener.h
 
 Camera.o: Camera.cc Camera.h IOpenGLProgram.h IScrollListener.h
 	g++ Camera.cc ${CFLAGS} -c
+
+AbstractCamera.o: AbstractCamera.cc AbstractCamera.h ICamera.h
+	g++ AbstractCamera.cc ${CFLAGS} -c
 
 AbstractObject.o: AbstractObject.cc AbstractObject.h
 	g++ AbstractObject.cc ${CFLAGS} -c

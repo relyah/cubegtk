@@ -28,6 +28,8 @@ private:
   GLuint iboPoints;
   GLuint attribute_vp, attribute_vn, attribute_vc;
   GLint uniform_m;
+  GLint uniform_v;
+  GLint uniform_p;
 
   virtual void Gen();
   void FillVBO();

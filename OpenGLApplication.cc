@@ -8,14 +8,15 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program = new OpenGLProgram();
   inputManager = new InputManager();
 
-  model = new SquareModel();
+  camera = new Camera(program, screenWidth, screenHeight);
+  model = new SquareModel(camera,screenWidth, screenHeight);
   square = new Square(program, model);
   crossHair = new CrossHair(program);
-  camera = new Camera(program, screenWidth, screenHeight);
 
   program->SetCamera(camera);
+
   program->AddObject(square);
-  //program->AddObject(crossHair);
+  program->AddObject(crossHair);  
 
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);

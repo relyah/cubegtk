@@ -38,6 +38,8 @@ void CrossHair::Init() {
 
   glEnableVertexAttribArray(attribute_vc);
   glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
+
+  glBindBuffer(GL_ARRAY_BUFFER,0);
 }
 
 void CrossHair::Render() {
@@ -47,7 +49,12 @@ void CrossHair::Render() {
   glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(m));
   glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(m));
 
-  glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+  //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glDrawArrays(GL_LINES,0,4);
+  //glBindBuffer(GL_ARRAY_BUFFER,0);
+}
+
+void CrossHair::Shutdown() {
   glBindBuffer(GL_ARRAY_BUFFER,0);
+  glDeleteBuffers(1,&vboPoints);
 }

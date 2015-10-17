@@ -25,8 +25,6 @@ void Camera::Init() {
     cameraLookAt.x, cameraLookAt.y, cameraLookAt.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f
   };
 
-  //GLuint vboPoints;
-  //glGenBuffers(1,&vboPoints);
   sstm.str(std::string());
   sstm << "camera vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
@@ -46,9 +44,6 @@ void Camera::Init() {
   uniform_v = program->GetUniform("view");
   uniform_p = program->GetUniform("projection");
 
-  //glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
-  //glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
-
   sstm.str(std::string());
   sstm << "uniform v: " << uniform_v << ", p: " << uniform_p << std::endl;
   logger->info(sstm.str());
@@ -63,10 +58,11 @@ void Camera::Render() {
   if (isCameraUpdated) {
     Bind();
     isCameraUpdated = false;
+
     glm::mat4 model = glm::mat4(1.0f);
     glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(model));
-        
-    view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+
+    //view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
     glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
 
     glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
@@ -85,8 +81,6 @@ void Camera::Shutdown() {
 }
 
 void Camera::OnScroll(GdkScrollDirection dir) {
-  //float  zoomDelta = 0.0f;
-
   if (dir==GDK_SCROLL_UP) {
     zoomDelta += 0.1f;
   } else if (dir==GDK_SCROLL_DOWN) {
@@ -104,29 +98,11 @@ void Camera::OnScroll(GdkScrollDirection dir) {
 void Camera::OnDrag(double x, double y) {
   if (isCameraMoving) {
 
-
-    //logger->info("drag");
-
-    //sstm.str(std::string());
-    //sstm << "x2: " << x  << " y2: " << y << " x1: " << cursor.x  << " y1: " << cursor.y << std::endl;
-    //logger->info(sstm.str());
-
     glm::vec2 delta = (glm::vec2(x,y) - cursor);
-
-    //sstm.str(std::string());
-    //sstm << "dx: " << delta.x  << " dy: " << delta.y << std::endl;
-    //logger->info(sstm.str());
 
     cameraRotate += glm::vec2(0.1f*delta.x, 0.1f*delta.y);
 
-    //sstm.str(std::string());
-    //sstm << "cr.X: " << cameraRotate.x  << " cr.Y: " << cameraRotate.y << std::endl;
-    //logger->info(sstm.str());
-
-  
     ZoomCamera();
-
-    //cameraPosition += glm::vec3(0.01f*(float)delta.x,0.0f,0.0f); //0.01f*(float)delta.y 
 
     cursor = glm::vec2(x,y);
     isCameraUpdated = true;
@@ -174,6 +150,8 @@ void Camera::ZoomCamera() {
   glm::vec3 d = zoomDelta*glm::normalize(cameraLookAt - cameraPosition);
   cameraPosition = cameraPosition +  d;
 
+  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
+
   sstm.str(std::string());
   sstm << "zoomDelta: " << zoomDelta << " d: "<< d.x << "," << d.y << std::endl;
   logger->info(sstm.str());
@@ -187,7 +165,7 @@ void Camera::Reset() {
 
   cameraRotate = glm::vec2(0.0f, 0.0f);
 
-  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
+  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
 
   projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
 
@@ -195,36 +173,7 @@ void Camera::Reset() {
 }
 
 void Camera::RenderRay() {
-  /* GLuint attribute_vp = program->GetAttrib("vp");
-     GLuint attribute_vn = program->GetAttrib("vn");
-     GLuint attribute_vc = program->GetAttrib("vc");
-
-     VertexStructure points[] = {
-     cameraPosition.x, cameraPosition.y, cameraPosition.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f,
-     cameraLookAt.x, cameraLookAt.y, cameraLookAt.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f
-     };
-
-     GLuint vboPoints;
-     glGenBuffers(1,&vboPoints);
-     sstm.str(std::string());
-     sstm << "camera vboPoints: " << vboPoints << std::endl;
-     logger->info(sstm.str());
-     glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
-     glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(VertexStructure), points, GL_STATIC_DRAW);
-
-     glEnableVertexAttribArray(attribute_vp);
-     //glVertexAttribPointer (attribute_vp, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure), (GLubyte*)NULL);
-
-     glEnableVertexAttribArray(attribute_vn);
-     //glVertexAttribPointer(attribute_vn, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, normal));
-
-     glEnableVertexAttribArray(attribute_vc);
-     //glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
-     */
-
-  glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+  //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glDrawArrays(GL_LINES,0,2);
-  glBindBuffer(GL_ARRAY_BUFFER,0);
-
-  //glDeleteBuffers(1,&vboPoints);
+  //glBindBuffer(GL_ARRAY_BUFFER,0);
 }

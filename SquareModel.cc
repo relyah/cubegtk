@@ -1,6 +1,6 @@
 #include "SquareModel.h"
 
-SquareModel::SquareModel() {
+SquareModel::SquareModel(ICamera* camera, int screenWidth, int screenHeight) : camera(camera), screenWidth(screenWidth), screenHeight(screenHeight) {
   logger = Logger::GetLogger();
   isChanged = true;
   Reset();
@@ -23,6 +23,15 @@ glm::mat4 SquareModel::GetModel() {
   }
 
   return matrix;
+}
+
+glm::mat4 SquareModel::GetView() {
+  return camera->GetView();
+}
+
+
+glm::mat4 SquareModel::GetProjection() {
+  return projection;
 }
 
 void SquareModel::OnKeyReleased(int key) {
@@ -61,6 +70,8 @@ void SquareModel::OnKeyReleased(int key) {
 }
 
 void SquareModel::Reset() {
+  projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f);
+    
   xinc = 0.1f; yinc=0.1f;
   xpos = 0.0f; ypos=0.0f;
 }

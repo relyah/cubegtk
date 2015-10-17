@@ -18,9 +18,11 @@ void Square::Init() {
   attribute_vc = program->GetAttrib("vc");
 
   uniform_m = program->GetUniform("model");
+  uniform_v = program->GetUniform("view");
+  uniform_p = program->GetUniform("projection");
 
   sstm.str(std::string());
-  sstm << "attributes vp: " << attribute_vp << ", vn: " << attribute_vn << ", vc: " << attribute_vc << ", uniform m: " << uniform_m << std::endl;
+  sstm << "attributes vp: " << attribute_vp << ", vn: " << attribute_vn << ", vc: " << attribute_vc << ", uniform m: " << uniform_m  << ", uniform_p: " << uniform_p << std::endl;
   logger->info(sstm.str());
 
   FillVBO();
@@ -76,17 +78,23 @@ void Square::Render() {
   //logger->info("Square updating...");
   glm::mat4 modelMatrix = model->GetModel();
   glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
+
+  glm::mat4 viewMatrix = model->GetView();
+  glUniformMatrix4fv(uniform_v,1,GL_FALSE,glm::value_ptr(viewMatrix));
+
+  glm::mat4 projectionMatrix = model->GetProjection();
+  glUniformMatrix4fv(uniform_p,1,GL_FALSE,glm::value_ptr(projectionMatrix));
 //  }
 
   sstm.str(std::string());
   sstm << "vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
   
-  glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+  //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 }
 
 void Square::Shutdown() {
