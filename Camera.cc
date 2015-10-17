@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera(IOpenGLProgram *program, int screenWidth, int screenHeight)
-  : program(program), screenWidth(screenWidth), screenHeight(screenHeight){
+  : AbstractObject(program), screenWidth(screenWidth), screenHeight(screenHeight){
   logger = Logger::GetLogger();
 
   Reset();

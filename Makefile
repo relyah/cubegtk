@@ -12,8 +12,8 @@ LIBS = -lGL -lepoxy -llog4cpp
 
 CFLAGS = `pkg-config --libs --cflags gtk+-3.0` ${IMPL_CFLAGS} ${LIBS} 
 
-cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o interface.ui.xml
-	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o
+cube: cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o interface.ui.xml
+	g++ ${CFLAGS} -o cube cube.o Logger.o AdminBase.o OpenGLApplication.o OpenGLManager.o OpenGLProgram.o AbstractOpenGLProgram.o Square.o Camera.o SquareModel.o InputManager.o AbstractObject.o CrossHair.o
 
 cube.o: cube.cc
 	g++ cube.cc ${CFLAGS} -c
@@ -27,7 +27,10 @@ OpenGLProgram.o: OpenGLProgram.cc OpenGLProgram.h IOpenGLProgram.h IObject.h
 OpenGLManager.o: OpenGLManager.cc OpenGLManager.h
 	g++ OpenGLManager.cc ${CFLAGS} -c
 
-Square.o: Square.cc Square.h IObject.h IModel.h DataStructures.h
+CrossHair.o: CrossHair.cc CrossHair.h
+	g++ CrossHair.cc ${CFLAGS} -c
+
+Square.o: Square.cc Square.h IObject.h AbstractObject.o IModel.h DataStructures.h
 	g++ Square.cc ${CFLAGS} -c
 
 SquareModel.o: SquareModel.cc SquareModel.h IModel.h IKeyReleasedListener.h

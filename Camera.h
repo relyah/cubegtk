@@ -37,7 +37,6 @@ public:
 private:
   std::stringstream sstm;
   log4cpp::Category* logger;
-  IOpenGLProgram *program;
   GLuint vboPoints;
   int screenWidth;
   int screenHeight;

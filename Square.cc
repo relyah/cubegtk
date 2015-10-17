@@ -1,11 +1,10 @@
 #include "Square.h"
 
-Square::Square(IOpenGLProgram* program, IModel* model) : program(program), model(model) {
+Square::Square(IOpenGLProgram* program, IModel* model) : AbstractObject(program), model(model) {
   logger = Logger::GetLogger();
 }
 
 Square::~Square() {
-  program=0;
   model=0;
   logger=0;
 }

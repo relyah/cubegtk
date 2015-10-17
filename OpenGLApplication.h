@@ -6,6 +6,7 @@
 #include "OpenGLProgram.h"
 #include "IObject.h"
 #include "Square.h"
+#include "CrossHair.h"
 #include "IModel.h"
 #include "SquareModel.h"
 #include "Camera.h"
@@ -32,6 +33,7 @@ private:
   OpenGLManager *manager;
   OpenGLProgram *program;
   IObject *square;
+  IObject *crossHair;
   SquareModel *model;
   Camera* camera;
   InputManager* inputManager;

@@ -10,10 +10,12 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
 
   model = new SquareModel();
   square = new Square(program, model);
+  crossHair = new CrossHair(program);
   camera = new Camera(program, screenWidth, screenHeight);
 
   program->SetCamera(camera);
   program->AddObject(square);
+  //program->AddObject(crossHair);
 
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
@@ -25,6 +27,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
 
 OpenGLApplication::~OpenGLApplication() {
   delete square;
+  delete crossHair;
   delete model;
   delete camera;
   delete program;

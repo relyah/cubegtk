@@ -2,6 +2,8 @@
 
 OpenGLProgram::OpenGLProgram() {
   logger->info("Starting OpenGLProgram...");
+
+  objects = TObjects();
 }
 
 OpenGLProgram::~OpenGLProgram() {
@@ -9,7 +11,7 @@ OpenGLProgram::~OpenGLProgram() {
 }
 
 void OpenGLProgram::AddObject(IObject* object) {
-  this->object = object;
+  objects.push_back(object);
 }
 
 void OpenGLProgram::SetCamera(Camera* camera) {
@@ -22,9 +24,16 @@ void OpenGLProgram::Init() {
   InitProgram();
   //InitVAO();
 
-  camera->Init();
-  object->Init();
+  camera->Init();  
+  InitObjects();
+}
 
+void OpenGLProgram::InitObjects() {
+  if (objects.size()==0) {return;}
+
+  for (TObjects::iterator it = objects.begin() ; it != objects.end(); ++it) {
+    (*it)->Init();
+  }
 }
 
 void OpenGLProgram::Render() {
@@ -40,7 +49,7 @@ void OpenGLProgram::Render() {
   glPointSize(40.0f);
 
   camera->Render();
-  object->Render();
+  RenderObjects();
 
   glBindVertexArray (0);
   glUseProgram (0);
@@ -48,13 +57,20 @@ void OpenGLProgram::Render() {
   glFlush();
 }
 
+void OpenGLProgram::RenderObjects() {
+  if (objects.size()==0) {return;}
+
+  for (TObjects::iterator it = objects.begin() ; it != objects.end(); ++it) {
+    (*it)->Render();
+  }
+}
+
 void OpenGLProgram::Shutdown() {
 
   camera->Shutdown();
   camera=0;
 
-  object->Shutdown();
-  object=0;
+  ShutdownObjects();
 
   glUseProgram(0);
 
@@ -64,10 +80,19 @@ void OpenGLProgram::Shutdown() {
   glDeleteShader(fs);
   glDeleteShader(vs);
 
-  //glBindBuffer(GL_ARRAY_BUFFER, 0);
-  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  objects.clear();
 
   AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
+}
+
+void OpenGLProgram::ShutdownObjects() {
+  if (objects.size()==0) {return;}
+
+  for (TObjects::iterator it = objects.begin() ; it != objects.end(); ++it) {
+    (*it)->Shutdown();
+  }
+
+  objects.clear();
 }
 
 void OpenGLProgram::InitProgram() {
@@ -79,27 +104,27 @@ void OpenGLProgram::InitProgram() {
 }
 
 /*
-void OpenGLProgram::InitVAO() {
+  void OpenGLProgram::InitVAO() {
 
   /*GLfloat verts[] = 
-    {
-    +0.0f, +1.0f,
-    -1.0f, -1.0f,
-    +1.0f, -1.0f,
-    };
-  */
+  {
+  +0.0f, +1.0f,
+  -1.0f, -1.0f,
+  +1.0f, -1.0f,
+  };
+*/
 //GenVAO();
-  //glGenVertexArrays(1, &vao);
-  //glBindVertexArray(vao);
+//glGenVertexArrays(1, &vao);
+//glBindVertexArray(vao);
 
-  /*glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
+/*glGenBuffers(1, &vbo);
+  glBindBuffer(GL_ARRAY_BUFFER, vbo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(verts), verts, GL_STATIC_DRAW);
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
-    glBindVertexArray(0);
+  glEnableVertexAttribArray(0);
+  glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+  glBindVertexArray(0);
 
-    glDeleteBuffers(1, &vbo);*/
+  glDeleteBuffers(1, &vbo);*/
 //}
 

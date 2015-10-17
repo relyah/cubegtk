@@ -1,9 +1,13 @@
 #ifndef OPENGPROGRAM_H_
 #define OPENGLPROGRAM_H_
 
+#include <vector>
+
 #include "AbstractOpenGLProgram.h"
 #include "IObject.h"
 #include "Camera.h"
+
+typedef std::vector<IObject*> TObjects;
 
 class OpenGLProgram : public AbstractOpenGLProgram {
 
@@ -22,11 +26,14 @@ public:
 private:
   //GLuint vao, vbo;
   GLuint vs, fs;
-  IObject* object;
+  TObjects objects;
   Camera* camera;
 
   void InitProgram();
-  //void InitVAO();
+
+  void InitObjects();
+  void RenderObjects();
+  void ShutdownObjects();
 };
 
 #endif
