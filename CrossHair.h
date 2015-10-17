@@ -13,7 +13,7 @@ class CrossHair : public AbstractObject {
 
 public:
 
-  CrossHair(IOpenGLProgram *program);
+  CrossHair(IOpenGLProgram *program, IModel *model);
   virtual ~CrossHair();
 
   virtual void Init();

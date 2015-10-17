@@ -11,7 +11,8 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   camera = new Camera(program, screenWidth, screenHeight);
   model = new SquareModel(camera,screenWidth, screenHeight);
   square = new Square(program, model);
-  crossHair = new CrossHair(program);
+  crossHairModel = new CrossHairModel();
+  crossHair = new CrossHair(program,crossHairModel);
 
   program->SetCamera(camera);
 
@@ -29,6 +30,7 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
 OpenGLApplication::~OpenGLApplication() {
   delete square;
   delete crossHair;
+  delete crossHairModel;
   delete model;
   delete camera;
   delete program;

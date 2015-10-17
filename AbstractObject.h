@@ -5,17 +5,19 @@
 #include "IObject.h"
 #include "AdminBase.h"
 #include "IOpenGLProgram.h"
+#include "IModel.h"
 
 class AbstractObject : public AdminBase, public IObject {
 
 public:
-  AbstractObject(IOpenGLProgram *program);
+  AbstractObject(IOpenGLProgram *program, IModel *model);
   virtual ~AbstractObject();
 
   virtual void Shutdown();
 
 protected:
   IOpenGLProgram *program;
+  IModel *model;
   GLuint vao;
 
   virtual void Gen();

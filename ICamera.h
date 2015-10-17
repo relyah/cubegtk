@@ -6,13 +6,12 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-class ICamera {
+#include "IModel.h"
+
+class ICamera : public IModel {
 
 public:
   virtual ~ICamera() {};
-
-  virtual glm::mat4 GetView() = 0;
-  virtual glm::mat4 GetProjection() = 0;
 
 };
 #endif

@@ -1,7 +1,7 @@
 #include "Camera.h"
 
 Camera::Camera(IOpenGLProgram *program, int screenWidth, int screenHeight)
-  : AbstractObject(program), screenWidth(screenWidth), screenHeight(screenHeight){
+  : AbstractObject(program,this), screenWidth(screenWidth), screenHeight(screenHeight){
   logger = Logger::GetLogger();
 
   Reset();
@@ -14,7 +14,7 @@ Camera::~Camera() {
 
 void Camera::Init() {
   Gen();
-  isCameraUpdated = true;
+  isChanged = true;
 
   GLuint attribute_vp = program->GetAttrib("vp");
   GLuint attribute_vn = program->GetAttrib("vn");
@@ -55,11 +55,11 @@ void Camera::Gen() {
 }
 
 void Camera::Render() {
-  if (isCameraUpdated) {
+  if (isChanged) {
     Bind();
-    isCameraUpdated = false;
+    isChanged = false;
 
-    glm::mat4 model = glm::mat4(1.0f);
+    glm::mat4 model =  this->GetModel();
     glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(model));
 
     //view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
@@ -92,7 +92,7 @@ void Camera::OnScroll(GdkScrollDirection dir) {
   cameraPosition = cameraOrigPos;
   ZoomCamera();
 
-  isCameraUpdated = true;
+  isChanged = true;
 }
 
 void Camera::OnDrag(double x, double y) {
@@ -105,7 +105,7 @@ void Camera::OnDrag(double x, double y) {
     ZoomCamera();
 
     cursor = glm::vec2(x,y);
-    isCameraUpdated = true;
+    isChanged = true;
   }
 }
 
@@ -169,7 +169,7 @@ void Camera::Reset() {
 
   projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
 
-  isCameraUpdated = true;
+  isChanged = true;
 }
 
 void Camera::RenderRay() {

@@ -1,11 +1,12 @@
 #include "AbstractObject.h"
 
-AbstractObject::AbstractObject(IOpenGLProgram* program) : program(program)  {
+AbstractObject::AbstractObject(IOpenGLProgram* program, IModel *model) : program(program), model(model)  {
 
 }
 
 AbstractObject::~AbstractObject() {
   program=0;
+  model=0;
 }
 
 void AbstractObject::Gen() {
@@ -19,4 +20,6 @@ void AbstractObject::Bind() {
 
 void AbstractObject::Shutdown() {
   glDeleteVertexArrays(1,&vao);
+  program = 0;
+  model =0;
 }

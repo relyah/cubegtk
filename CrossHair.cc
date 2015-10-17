@@ -1,6 +1,6 @@
 #include "CrossHair.h"
 
-CrossHair::CrossHair(IOpenGLProgram *program) : AbstractObject(program) {
+CrossHair::CrossHair(IOpenGLProgram *program, IModel *model) : AbstractObject(program,model) {
 
 }
 
@@ -44,10 +44,14 @@ void CrossHair::Init() {
 
 void CrossHair::Render() {
   Bind();
-  glm::mat4 m = glm::mat4(1.0f);
-  glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(m));
-  glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(m));
-  glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(m));
+  glm::mat4 modelMatrix = model->GetModel();
+  glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(modelMatrix));
+
+  glm::mat4 view = model->GetView();
+  glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
+
+  glm::mat4 projection = model->GetProjection();
+  glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
 
   //glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glDrawArrays(GL_LINES,0,4);

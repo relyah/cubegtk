@@ -44,7 +44,6 @@ private:
   GLint uniform_m;
   GLint uniform_v;
   GLint uniform_p;
-  bool isCameraUpdated;
   bool isCameraMoving;
   glm::vec3 cameraPosition, cameraOrigPos;
   glm::vec3 cameraLookAt;
