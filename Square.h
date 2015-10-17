@@ -14,7 +14,6 @@ public:
   Square(IOpenGLProgram* program, IModel* model);
   virtual ~Square();
 
-  void Gen();
   void Init();
   void Render();
   void Shutdown();
@@ -31,6 +30,7 @@ private:
   GLuint attribute_vp, attribute_vn, attribute_vc;
   GLint uniform_m;
 
+  void Gen();
   void FillVBO();
 };
 

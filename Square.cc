@@ -18,8 +18,7 @@ void Square::Gen() {
 
 void Square::Init() {
 
-  glBindVertexArray(vao);
-  //program->Use();
+  Gen();
 
   attribute_vp = program->GetAttrib("vp");
   attribute_vn = program->GetAttrib("vn");

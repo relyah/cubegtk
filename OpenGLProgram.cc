@@ -20,12 +20,8 @@ void OpenGLProgram::Init() {
   logger->info("Init OpenGLProgram...");
 
   InitProgram();
-  InitVAO();
+  //InitVAO();
 
-
-  //object->FillVBO();
-  camera->Gen();
-  object->Gen();
   camera->Init();
   object->Init();
 
@@ -36,7 +32,7 @@ void OpenGLProgram::Render() {
   //logger->info("Program rendering...");
 
   Use();
-  GenVAO(); //glBindVertexArray(vao);
+  //GenVAO(); //glBindVertexArray(vao);
   //glDrawArrays(GL_TRIANGLES, 0, 3);
 
   glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,8 +64,8 @@ void OpenGLProgram::Shutdown() {
   glDeleteShader(fs);
   glDeleteShader(vs);
 
-  glBindBuffer(GL_ARRAY_BUFFER, 0);
-  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+  //glBindBuffer(GL_ARRAY_BUFFER, 0);
+  //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
   AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
 }
@@ -82,6 +78,7 @@ void OpenGLProgram::InitProgram() {
   logger->info(sstm.str());
 }
 
+/*
 void OpenGLProgram::InitVAO() {
 
   /*GLfloat verts[] = 
@@ -91,7 +88,7 @@ void OpenGLProgram::InitVAO() {
     +1.0f, -1.0f,
     };
   */
-  GenVAO();
+//GenVAO();
   //glGenVertexArrays(1, &vao);
   //glBindVertexArray(vao);
 
@@ -104,4 +101,5 @@ void OpenGLProgram::InitVAO() {
     glBindVertexArray(0);
 
     glDeleteBuffers(1, &vbo);*/
-}
+//}
+

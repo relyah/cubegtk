@@ -4,7 +4,7 @@ void AbstractOpenGLProgram::Use() {
   glUseProgram(this->program);
 }
 
-void AbstractOpenGLProgram::GenVAO() {
+/*void AbstractOpenGLProgram::GenVAO() {
   if (vao==0) {
     glGenVertexArrays(1, &vao);
   }
@@ -13,10 +13,11 @@ void AbstractOpenGLProgram::GenVAO() {
   //sstm.str(std::string());
   //sstm << "vao: " << vao << std::endl;
   //logger->info(sstm.str());
-}
+  }*/
 
 void AbstractOpenGLProgram::Shutdown() {
   glDeleteProgram(program);
+  //glDeleteVertexArrays(1,&vao);
 }
 
 GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *fragmentfile, GLuint &vshader, GLuint &fshader) {
@@ -45,7 +46,6 @@ GLuint AbstractOpenGLProgram::CreateProgram(const char *vertexfile, const char *
 		glDeleteProgram(program);
 		return 0;
 	}
-	return this->program;
 }
 
 GLuint AbstractOpenGLProgram::CreateShader(GLenum type, const char *filename) {

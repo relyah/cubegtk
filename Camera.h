@@ -23,7 +23,6 @@ public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
   virtual ~Camera();
 
-  void Gen();
   void Init();
   void Render();
   void Shutdown();
@@ -57,6 +56,7 @@ private:
 
   GLuint vboPoints;
 
+  void Gen();
   void ZoomCamera();
   void Reset();
   void RenderRay();

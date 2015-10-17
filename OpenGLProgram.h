@@ -20,13 +20,13 @@ public:
   void Shutdown();
 
 private:
-  GLuint vao, vbo;
+  //GLuint vao, vbo;
   GLuint vs, fs;
   IObject* object;
   Camera* camera;
 
   void InitProgram();
-  void InitVAO();
+  //void InitVAO();
 };
 
 #endif

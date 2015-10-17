@@ -19,10 +19,8 @@ void Camera::Gen() {
 }
 
 void Camera::Init() {
-  glBindVertexArray(vao);
+  Gen();
   isCameraUpdated = true;
-  program->Use();
-
 
   GLuint attribute_vp = program->GetAttrib("vp");
   GLuint attribute_vn = program->GetAttrib("vn");
