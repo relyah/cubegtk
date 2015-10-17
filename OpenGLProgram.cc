@@ -22,11 +22,12 @@ void OpenGLProgram::Init() {
   InitProgram();
   InitVAO();
 
-  object->Init();
-  object->FillVBO();
+
+  //object->FillVBO();
+  camera->Gen();
+  object->Gen();
   camera->Init();
-
-
+  object->Init();
 
 }
 
@@ -70,7 +71,7 @@ void OpenGLProgram::Shutdown() {
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
+  AbstractOpenGLProgram::Shutdown();//  glDeleteProgram(GetProgram());
 }
 
 void OpenGLProgram::InitProgram() {

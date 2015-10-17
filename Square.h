@@ -14,8 +14,8 @@ public:
   Square(IOpenGLProgram* program, IModel* model);
   virtual ~Square();
 
+  void Gen();
   void Init();
-  void FillVBO();
   void Render();
   void Shutdown();
 
@@ -23,6 +23,7 @@ private:
   std::stringstream sstm;
   log4cpp::Category* logger;
   IOpenGLProgram* program;
+  GLuint vao;
   IModel* model;
 
   GLuint vboPoints;
@@ -30,6 +31,7 @@ private:
   GLuint attribute_vp, attribute_vn, attribute_vc;
   GLint uniform_m;
 
+  void FillVBO();
 };
 
 #endif

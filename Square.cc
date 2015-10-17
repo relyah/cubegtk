@@ -10,9 +10,16 @@ Square::~Square() {
   logger=0;
 }
 
+void Square::Gen() {
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+  glGenBuffers(1, &vboPoints);
+}
+
 void Square::Init() {
 
-  program->Use();
+  glBindVertexArray(vao);
+  //program->Use();
 
   attribute_vp = program->GetAttrib("vp");
   attribute_vn = program->GetAttrib("vn");
@@ -23,6 +30,8 @@ void Square::Init() {
   sstm.str(std::string());
   sstm << "attributes vp: " << attribute_vp << ", vn: " << attribute_vn << ", vc: " << attribute_vc << ", uniform m: " << uniform_m << std::endl;
   logger->info(sstm.str());
+
+  FillVBO();
 }
 
 void Square::FillVBO() {
@@ -37,7 +46,7 @@ void Square::FillVBO() {
   //glUseProgram(program->GetProgram());
   //program->GenVAO();
 
-  glGenBuffers(1, &vboPoints);
+  //glGenBuffers(1, &vboPoints);
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   sstm.str(std::string());
   sstm << "vboPoints: " << vboPoints << std::endl;
@@ -62,13 +71,15 @@ void Square::FillVBO() {
 }
 
 void Square::Render() {
+  glBindVertexArray(vao);
+    
   if (model->IsChanged()) {
     //logger->info("Square updating...");
     glm::mat4 modelMatrix = model->GetModel();
     glUniformMatrix4fv(uniform_m,1,GL_FALSE,glm::value_ptr(modelMatrix));
   }
 
-    sstm.str(std::string());
+  sstm.str(std::string());
   sstm << "vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
   
@@ -82,5 +93,6 @@ void Square::Render() {
 void Square::Shutdown() {
   program=0;
   model=0;
+  glDeleteVertexArrays(1,&vao);
 }
 

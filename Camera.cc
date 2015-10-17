@@ -12,7 +12,14 @@ Camera::~Camera() {
   logger = 0;
 }
 
+void Camera::Gen() {
+  glGenVertexArrays(1, &vao);
+  glBindVertexArray(vao);
+  glGenBuffers(1,&vboPoints);
+}
+
 void Camera::Init() {
+  glBindVertexArray(vao);
   isCameraUpdated = true;
   program->Use();
 
@@ -27,7 +34,7 @@ void Camera::Init() {
   };
 
   //GLuint vboPoints;
-  glGenBuffers(1,&vboPoints);
+  //glGenBuffers(1,&vboPoints);
   sstm.str(std::string());
   sstm << "camera vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
@@ -43,7 +50,7 @@ void Camera::Init() {
   glEnableVertexAttribArray(attribute_vc);
   glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
 
-  
+  uniform_m = program->GetUniform("model");
   uniform_v = program->GetUniform("view");
   uniform_p = program->GetUniform("projection");
 
@@ -57,9 +64,14 @@ void Camera::Init() {
 
 void Camera::Render() {
   if (isCameraUpdated) {
+    glBindVertexArray(vao);
     isCameraUpdated = false;
+    glm::mat4 model = glm::mat4(1.0f);
+    glUniformMatrix4fv(uniform_m, 1, GL_FALSE, glm::value_ptr(model));
+        
     view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp);
     glUniformMatrix4fv(uniform_v, 1, GL_FALSE, glm::value_ptr(view));
+
     glUniformMatrix4fv(uniform_p, 1, GL_FALSE, glm::value_ptr(projection));
 
     if (isCameraMoving) {
@@ -72,6 +84,7 @@ void Camera::Render() {
 void Camera::Shutdown() {
   program=0;
   glDeleteBuffers(1,&vboPoints);
+  glDeleteVertexArrays(1,&vao);
 }
 
 void Camera::OnScroll(GdkScrollDirection dir) {
@@ -177,7 +190,7 @@ void Camera::Reset() {
 
   cameraRotate = glm::vec2(0.0f, 0.0f);
 
-  view =   glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
+  view = glm::lookAt(cameraPosition, cameraLookAt, cameraUp); //glm::mat4(1.0f);//
 
   projection =  glm::perspective(45.0f, 1.0f * screenWidth / screenHeight, 0.1f, 100.0f); //glm::mat4(1.0f);//
 
@@ -186,31 +199,31 @@ void Camera::Reset() {
 
 void Camera::RenderRay() {
   /* GLuint attribute_vp = program->GetAttrib("vp");
-  GLuint attribute_vn = program->GetAttrib("vn");
-  GLuint attribute_vc = program->GetAttrib("vc");
+     GLuint attribute_vn = program->GetAttrib("vn");
+     GLuint attribute_vc = program->GetAttrib("vc");
 
-  VertexStructure points[] = {
-    cameraPosition.x, cameraPosition.y, cameraPosition.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f,
-    cameraLookAt.x, cameraLookAt.y, cameraLookAt.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f
-  };
+     VertexStructure points[] = {
+     cameraPosition.x, cameraPosition.y, cameraPosition.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f,
+     cameraLookAt.x, cameraLookAt.y, cameraLookAt.z, 1.0f,0.0f,0.0f, 1.0f,1.0f,1.0f
+     };
 
-  GLuint vboPoints;
-  glGenBuffers(1,&vboPoints);
-  sstm.str(std::string());
-  sstm << "camera vboPoints: " << vboPoints << std::endl;
-  logger->info(sstm.str());
-  glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
-  glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(VertexStructure), points, GL_STATIC_DRAW);
+     GLuint vboPoints;
+     glGenBuffers(1,&vboPoints);
+     sstm.str(std::string());
+     sstm << "camera vboPoints: " << vboPoints << std::endl;
+     logger->info(sstm.str());
+     glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+     glBufferData(GL_ARRAY_BUFFER, 2 * sizeof(VertexStructure), points, GL_STATIC_DRAW);
 
-  glEnableVertexAttribArray(attribute_vp);
-  //glVertexAttribPointer (attribute_vp, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure), (GLubyte*)NULL);
+     glEnableVertexAttribArray(attribute_vp);
+     //glVertexAttribPointer (attribute_vp, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure), (GLubyte*)NULL);
 
-  glEnableVertexAttribArray(attribute_vn);
-  //glVertexAttribPointer(attribute_vn, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, normal));
+     glEnableVertexAttribArray(attribute_vn);
+     //glVertexAttribPointer(attribute_vn, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, normal));
 
-  glEnableVertexAttribArray(attribute_vc);
-  //glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
-  */
+     glEnableVertexAttribArray(attribute_vc);
+     //glVertexAttribPointer(attribute_vc, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure),(GLvoid*)offsetof(struct VertexStructure, colour));
+     */
 
   glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
   glDrawArrays(GL_LINES,0,2);

@@ -23,6 +23,7 @@ public:
   Camera(IOpenGLProgram *program, int screenWidth, int screenHeight);
   virtual ~Camera();
 
+  void Gen();
   void Init();
   void Render();
   void Shutdown();
@@ -39,8 +40,10 @@ private:
   IOpenGLProgram *program;
   int screenWidth;
   int screenHeight;
-  GLint uniform_p;
+  GLuint vao;
+  GLint uniform_m;
   GLint uniform_v;
+  GLint uniform_p;
   bool isCameraUpdated;
   bool isCameraMoving;
   glm::vec3 cameraPosition, cameraOrigPos;
