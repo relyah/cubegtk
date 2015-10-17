@@ -45,8 +45,26 @@ void Intersector::OnButtonReleased(int button, double x, double y) {
     sstm << "xp: "<< rayClip.x << ", yp: " << rayClip.y <<  ", zp: " << rayClip.z << ", wp: " << rayClip.w <<std::endl;
     logger->info(sstm.str());
 
-    glm::mat4 invView = glm::inverse(camera->GetView());
+    rayClip = glm::normalize(rayClip);
+
+    sstm.str(std::string());
+    sstm << "(n) xp: "<< rayClip.x << ", yp: " << rayClip.y <<  ", zp: " << rayClip.z << ", wp: " << rayClip.w <<std::endl;
+    logger->info(sstm.str());
+
     glm::mat4 invProj = glm::inverse(camera->GetProjection());
+    glm::vec4 rayEye = invProj * rayClip;
+    rayEye = glm::vec4(rayEye.x, rayEye.y, -1.0f, 0.0f);
+
+    sstm.str(std::string());
+    sstm << "re x: "<< rayEye.x << ", y: " << rayEye.y <<  ", z: " << rayEye.z << ", w: " << rayEye.w <<std::endl;
+    logger->info(sstm.str());
+
+    glm::mat4 invView = glm::inverse(camera->GetView());
+    glm::vec4 rayWorld = invView * rayEye;
+
+    sstm.str(std::string());
+    sstm << "rw x: "<< rayWorld.x << ", y: " << rayWorld.y <<  ", z: " << rayWorld.z << ", w: " << rayWorld.w <<std::endl;
+    logger->info(sstm.str());
 
   }
 }
