@@ -12,6 +12,14 @@ Camera::~Camera() {
   logger = 0;
 }
 
+int Camera::GetScreenWidth() {
+  return screenWidth;
+}
+
+int Camera::GetScreenHeight() {
+  return screenHeight;
+}
+
 void Camera::Init() {
   Gen();
   isChanged = true;

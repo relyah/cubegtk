@@ -13,5 +13,8 @@ class ICamera : public IModel {
 public:
   virtual ~ICamera() {};
 
+  virtual int GetScreenWidth() = 0;
+  virtual int GetScreenHeight() = 0;
+
 };
 #endif

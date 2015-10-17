@@ -21,12 +21,17 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   program->AddObject(crossHair);
   program->AddObject(crossHairLocal);
 
+  intersector = new Intersector(camera);
+
   inputManager->RegisterListener((IKeyReleasedListener*)model);
   inputManager->RegisterListener((IKeyReleasedListener*)camera);
   inputManager->RegisterListener((IScrollListener*)camera);
   inputManager->RegisterListener((IDragListener*)camera);
   inputManager->RegisterListener((IButtonPressedListener*)camera);
   inputManager->RegisterListener((IButtonReleasedListener*)camera);
+  inputManager->RegisterListener((IDragListener*)intersector);
+  inputManager->RegisterListener((IButtonPressedListener*)intersector);
+  inputManager->RegisterListener((IButtonReleasedListener*)intersector);
 }
 
 OpenGLApplication::~OpenGLApplication() {
@@ -39,6 +44,7 @@ OpenGLApplication::~OpenGLApplication() {
   delete program;
   delete manager;
   delete inputManager;
+  delete intersector;
   logger->info("Stopped OpenGLApplication.");
   logger = 0;
 }

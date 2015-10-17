@@ -35,6 +35,9 @@ public:
   virtual void OnButtonReleased(int button, double x, double y);
   virtual void OnKeyReleased(int key);
 
+  virtual int GetScreenWidth();
+  virtual int GetScreenHeight();
+
 private:
   std::stringstream sstm;
   log4cpp::Category* logger;

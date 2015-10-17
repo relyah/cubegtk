@@ -1,12 +1,13 @@
 #ifndef _INTERSECTOR_H_
 #define _INTERSECTOR_H_
 
+#include "AdminBase.h"
 #include "ICamera.h"
 #include "IDragListener.h"
 #include "IButtonPressedListener.h"
 #include "IButtonReleasedListener.h"
 
-class Intersector : public IButtonPressedListener, public IButtonReleasedListener, public IDragListener {
+class Intersector : AdminBase, public IButtonPressedListener, public IButtonReleasedListener, public IDragListener {
 
 public:
   Intersector(ICamera *camera);
@@ -20,6 +21,8 @@ private:
   ICamera *camera;
 
   bool isPressed;
+  double x;
+  double y;
 };
 
 #endif
