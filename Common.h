@@ -14,10 +14,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include <glm/gtx/vector_angle.hpp>
+//#include <glm/gtx/vector_angle.hpp>
 
 #define EPSILON  0.000001f
 
-void DebugPrint(const char* name, glm::vec4& v);
+void DebugPrint(const char* name, const glm::vec4& v);
+void DebugPrint(const char* name, const glm::vec3& v);
 
 #endif /* COMMON_H_ */

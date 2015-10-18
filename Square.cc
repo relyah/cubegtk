@@ -109,16 +109,33 @@ void Square::Intersect(Ray &ray) {
   glm::mat4 modelMatrix = model->GetModel();
   glm::mat4 view = model->GetView();
 
+  VertexStructure points[4];
+  points[0] = {    0.5f,  0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
+  points[1] = {  0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
+  points[2] = {   -0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
+  points[3] = {   -0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
+
   //make plane
-  glm::vec4 a = ( glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f));
+  /*glm::vec4 a = ( glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f));
   glm::vec4 b =( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
   glm::vec4 c = ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
-  glm::vec4 d = ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));
+  glm::vec4 d = ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));*/
+
+  glm::vec4 a = ( glm::vec4(  0.5f,  0.5f,  0.0f,1.0f));
+  glm::vec4 b =( glm::vec4( 0.5f, -0.5f,  0.0f,1.0f));
+  glm::vec4 c = ( glm::vec4( -0.5f, -0.5f,  0.0f,1.0f));
+  glm::vec4 d = ( glm::vec4(  -0.5f, 0.5f, 0.0f,1.0f));
+
+  DebugPrint("a",a);
+  DebugPrint("b",b);
+  DebugPrint("c",c);
+  DebugPrint("d",d);
+
   Plane p("test",a,b,c,d);
 
   //test for intersection
-  if (p.Intersect(ray)) {
-    logger->info("hit");
-  }
+  //if (p.Intersect(ray)) {
+  //  logger->info("hit");
+  //}
 
 }

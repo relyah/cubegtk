@@ -34,7 +34,7 @@ private:
   int screenHeight;
   OpenGLManager *manager;
   OpenGLProgram *program;
-  IObject *square;
+  Square *square;
   CrossHairModel *crossHairModel;
   IObject *crossHair;
   IObject *crossHairLocal;

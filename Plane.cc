@@ -8,19 +8,30 @@
 #include "Plane.h"
 
 Plane::Plane() :
-		name("Plane"), a(0), b(0), c(0), d(0), lenab(0), lenbc(0), depth(0) {
+  name("Plane"), a(0), b(0), c(0), d(0), lenab(0), lenbc(0), depth(0) {
 
 }
-Plane::Plane(const char* name, glm::vec4& a, glm::vec4& b, glm::vec4& c, glm::vec4& d) :
-		name(name), a(a), b(b), c(c), d(d) {
+Plane::Plane(const char* name, glm::vec4 &a, glm::vec4 &b, glm::vec4 &c, glm::vec4 &d) : name(name), a(a), b(b), c(c), d(d) {
+
+  //std::cout << "hello " << a.x << std::endl;
+
+  std::cout << "start plane " << std::endl;
+
+  DebugPrint("a",this->a);
+  DebugPrint("b",this->b);
+  DebugPrint("c",this->c);
+  DebugPrint("d",this->d);
 
 	glm::vec3 v1 = glm::vec3(b.x - a.x, b.y - a.y, b.z - a.z);
 	glm::vec3 v2 = glm::vec3(c.x - a.x, c.y - a.y, c.z - a.z);
+  DebugPrint("v1",v1);
+  DebugPrint("v2",v2);
 
 	normal = glm::normalize(glm::cross(v1, v2));
+  DebugPrint("n",normal);
 
 	glm::vec3 p = glm::vec3(a.x, a.y, a.z);
-	depth = glm::dot(-normal, p);
+	depth = 1.0f * glm::dot(-normal, p);
 
 	ab = MakeRay(a, b);
 	bc = MakeRay(b, c);
@@ -32,7 +43,6 @@ Plane::Plane(const char* name, glm::vec4& a, glm::vec4& b, glm::vec4& c, glm::ve
 }
 
 Plane::~Plane() {
-
 }
 
 bool Plane::Intersect(Ray& ray) {
@@ -194,7 +204,7 @@ bool Plane::IsParallel(Plane& other) {
 	std::cout << "this_normal x:" << this->normal.x << " y:" << this->normal.y << " z:" << this->normal.z << std::endl;
 	std::cout << "other.normal x:" << other.normal.x << " y:" << other.normal.y << " z:" << other.normal.z << std::endl;
 	return IsEqual(this->normal.x, other.normal.x) && IsEqual(this->normal.y, other.normal.y)
-			&& IsEqual(this->normal.z, other.normal.z);
+    && IsEqual(this->normal.z, other.normal.z);
 }
 bool Plane::IsOverlap(Plane& other) {
 //assumes planes are parallel

@@ -72,3 +72,12 @@ Logger.o: Logger.h Logger.cpp
 clean:
 	rm -f cube cube.o *.o *.*~
 
+PlaneTest.o: PlaneTest.cc Plane.cc Plane.h Common.cc Common.h
+	g++ PlaneTest.cc ${CFLAGS} -c
+
+PlaneTest: PlaneTest.o Plane.o Ray.o
+	g++ ${CFLAGS} -oPlaneTest -lboost_unit_test_framework PlaneTest.o Plane.o Ray.o Common.o 
+
+runtests: PlaneTest
+	./PlaneTest
+

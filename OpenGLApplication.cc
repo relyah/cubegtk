@@ -1,5 +1,7 @@
 #include "OpenGLApplication.h"
 
+#include "Ray.h"
+
 OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   :screenWidth(screenWidth), screenHeight(screenHeight){
   logger->info("Starting OpenGLApplication...");
@@ -11,6 +13,10 @@ OpenGLApplication::OpenGLApplication(int screenWidth, int screenHeight)
   camera = new Camera(program, screenWidth, screenHeight);
   model = new SquareModel(camera,screenWidth, screenHeight);
   square = new Square(program, model);
+  glm::vec4 v1 = glm::vec4(1.0f);
+  glm::vec4 v2 = glm::vec4(1.0f);
+  Ray r(v1,v2);
+  (square)->Intersect(r);
   crossHairModel = new CrossHairModel();
   crossHair = new CrossHair(program,crossHairModel);
   crossHairLocal = new CrossHair(program,model);
