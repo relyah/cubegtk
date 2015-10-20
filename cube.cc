@@ -103,7 +103,9 @@ static void button_release_event(GtkWindow *widget,
 static void resize (GtkGLArea *area,
                     gint       width,
                     gint       height,
-                    gpointer   user_data) { 
+                    gpointer   user_data) {
+
+    printf("Resize width: %d, height: %d\n",width,height);
 }
 
 static gboolean render(GtkGLArea *area, GdkGLContext *context)

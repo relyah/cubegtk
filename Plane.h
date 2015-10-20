@@ -12,19 +12,20 @@
 #include <string>
 
 #define GLM_MESSAGES
-//#define GLM_SWIZZLE
+#define GLM_SWIZZLE
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-//#include <glm/gtx/vector_angle.hpp>
+#include <glm/gtx/vector_angle.hpp>
 
 #include "Ray.h"
 
 class Plane {
 public:
 	Plane();
-	Plane(const char* name, glm::vec4 &a, glm::vec4 &b, glm::vec4 &c, glm::vec4 &d);
+	Plane(const char* name, glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 d);
 	virtual ~Plane();
+
 
 	bool Intersect(Ray& ray);
 	bool Intersect(Plane& other, Ray*& ray);

@@ -34,7 +34,7 @@ Ray.o: Ray.cc Ray.h
 	g++ Ray.cc ${CFLAGS} -c
 
 Plane.o: Plane.cc Plane.h
-	g++ Plane.cc ${CLAGS} -c
+	g++ Plane.cc ${CFLAGS} -c
 
 CrossHair.o: CrossHair.cc CrossHair.h
 	g++ CrossHair.cc ${CFLAGS} -c
@@ -72,11 +72,11 @@ Logger.o: Logger.h Logger.cpp
 clean:
 	rm -f cube cube.o *.o *.*~
 
-PlaneTest.o: PlaneTest.cc Plane.cc Plane.h Common.cc Common.h
+PlaneTest.o: PlaneTest.cc
 	g++ PlaneTest.cc ${CFLAGS} -c
 
-PlaneTest: PlaneTest.o Plane.o Ray.o
-	g++ ${CFLAGS} -oPlaneTest -lboost_unit_test_framework PlaneTest.o Plane.o Ray.o Common.o 
+PlaneTest: PlaneTest.o Plane.o Ray.o Common.o
+	g++ ${CFLAGS} -oPlaneTest -lboost_unit_test_framework PlaneTest.o Plane.o Ray.o Common.o
 
 runtests: PlaneTest
 	./PlaneTest

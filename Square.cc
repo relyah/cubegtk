@@ -117,9 +117,9 @@ void Square::Intersect(Ray &ray) {
 
   //make plane
   /*glm::vec4 a = ( glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f));
-  glm::vec4 b =( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
-  glm::vec4 c = ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
-  glm::vec4 d = ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));*/
+    glm::vec4 b =( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
+    glm::vec4 c = ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
+    glm::vec4 d = ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));*/
 
   glm::vec4 a = ( glm::vec4(  0.5f,  0.5f,  0.0f,1.0f));
   glm::vec4 b =( glm::vec4( 0.5f, -0.5f,  0.0f,1.0f));
@@ -134,8 +134,28 @@ void Square::Intersect(Ray &ray) {
   Plane p("test",a,b,c,d);
 
   //test for intersection
-  //if (p.Intersect(ray)) {
-  //  logger->info("hit");
-  //}
+  if (p.Intersect(ray)) {
+    logger->info("hit");
+
+    for (int i=0; i <4; i++) {
+      points[i].colour[0]=0.0f;
+      points[i].colour[1]=1.0f;
+      points[i].colour[2]=0.0f;
+    }
+
+    Bind();
+    glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+    float *buf = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+    if (buf==NULL) {
+      logger->info("glMapBuffer failed.");
+    } else {
+      memcpy(buf, points, sizeof(VertexStructure));
+    }
+    glUnmapBuffer(GL_ARRAY_BUFFER);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+    //
+  }
 
 }

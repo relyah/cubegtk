@@ -11,7 +11,13 @@ Plane::Plane() :
   name("Plane"), a(0), b(0), c(0), d(0), lenab(0), lenbc(0), depth(0) {
 
 }
-Plane::Plane(const char* name, glm::vec4 &a, glm::vec4 &b, glm::vec4 &c, glm::vec4 &d) : name(name), a(a), b(b), c(c), d(d) {
+Plane::Plane(const char* name, glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 d) : name(name), a(a), b(b), c(c), d(d)
+{
+  /*this->a = glm::vec4(_a);
+  this->b =b;
+  this->c =c;
+  this->d=d;*/
+  
 
   //std::cout << "hello " << a.x << std::endl;
 
@@ -22,24 +28,27 @@ Plane::Plane(const char* name, glm::vec4 &a, glm::vec4 &b, glm::vec4 &c, glm::ve
   DebugPrint("c",this->c);
   DebugPrint("d",this->d);
 
-	glm::vec3 v1 = glm::vec3(b.x - a.x, b.y - a.y, b.z - a.z);
-	glm::vec3 v2 = glm::vec3(c.x - a.x, c.y - a.y, c.z - a.z);
+	glm::vec3 v1 = glm::vec3(this->b-this->a);//b.x - a.x, b.y - a.y, b.z - a.z);
+	glm::vec3 v2 = glm::vec3(this->c-this->a);//c.x - a.x, c.y - a.y, c.z - a.z);
+  DebugPrint("a",this->a);
+  DebugPrint("b",this->b);
+  DebugPrint("c",this->c);
   DebugPrint("v1",v1);
   DebugPrint("v2",v2);
 
 	normal = glm::normalize(glm::cross(v1, v2));
   DebugPrint("n",normal);
 
-	glm::vec3 p = glm::vec3(a.x, a.y, a.z);
+	glm::vec3 p = glm::vec3(this->a);//a.x, a.y, a.z);
 	depth = 1.0f * glm::dot(-normal, p);
 
-	ab = MakeRay(a, b);
-	bc = MakeRay(b, c);
-	cd = MakeRay(c, d);
-	ad = MakeRay(a, d);
+	ab = MakeRay(this->a, this->b);
+	bc = MakeRay(this->b, this->c);
+	cd = MakeRay(this->c, this->d);
+	ad = MakeRay(this->a, this->d);
 
-	lenab = glm::length(glm::vec3(b.x - a.x, b.y - a.y, b.z - a.z));
-	lenbc = glm::length(glm::vec3(c.x - b.x, c.y - b.y, c.z - b.z));
+	lenab = glm::length(glm::vec3(this->b-this->a));//b.x - a.x, b.y - a.y, b.z - a.z));
+	lenbc = glm::length(glm::vec3(this->c-this->b));//c.x - b.x, c.y - b.y, c.z - b.z));
 }
 
 Plane::~Plane() {
@@ -79,12 +88,14 @@ bool Plane::Intersect(Ray& ray) {
 	float t = -num / denum;
 
 	glm::vec4 pt = ray.GetPoint(t);
-	//std::cout << "Intersection Pt x:" << pt.x << " y:" << pt.y << " z:" << pt.z << std::endl;
+	std::cout << "Intersection Pt x:" << pt.x << " y:" << pt.y << " z:" << pt.z << std::endl;
 
 	float dad = ad.GetDistanceToPoint(pt);
 	float dbc = bc.GetDistanceToPoint(pt);
 	float dab = ab.GetDistanceToPoint(pt);
 	float dcd = cd.GetDistanceToPoint(pt);
+
+  std::cout << "dad: " << dad << ", dbc: " << dbc << ", dab: " << dab << ", dcd: " << dcd << std::endl;
 
 	bool intersect = dad <= lenab && dbc <= lenab && dab <= lenbc && dcd <= lenbc;
 

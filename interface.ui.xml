@@ -32,7 +32,7 @@
     <property name="default_width">640</property>
     <property name="default_height">480</property>
     <signal name="destroy" handler="gtk_main_quit"/>
-    <signal name="key-release-event" handler="key_release_event" />
+        <signal name="key-release-event" handler="key_release_event" />
     <signal name="scroll-event" handler="scroll_event" />
     <signal name="button-press-event" handler="button_press_event" />
     <signal name="button-release-event" handler="button_release_event" />
@@ -61,6 +61,7 @@
             <signal name="resize" handler="resize" />
             <signal name="realize" handler="realize" />
             <signal name="unrealize" handler="unrealize" />
+
           </object>
         </child>
         <child>
