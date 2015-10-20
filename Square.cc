@@ -6,6 +6,8 @@ Square::Square(IOpenGLProgram* program, IModel* model) : AbstractObject(program,
   points[1] = {  0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
   points[2] = {   -0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
   points[3] = {   -0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
+
+  isHit = false;
 }
 
 Square::~Square() {
@@ -104,58 +106,46 @@ void Square::Shutdown() {
 }
 
 void Square::Intersect(Ray &ray) {
-  logger->info("doing hard work...");
-
   glm::mat4 modelMatrix = model->GetModel();
   glm::mat4 view = model->GetView();
 
-  VertexStructure points[4];
-  points[0] = {    0.5f,  0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
-  points[1] = {  0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
-  points[2] = {   -0.5f, -0.5f,  0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
-  points[3] = {   -0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
-
   //make plane
-  /*glm::vec4 a = ( glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f));
-    glm::vec4 b =( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
-    glm::vec4 c = ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
-    glm::vec4 d = ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));*/
-
-  glm::vec4 a = ( glm::vec4(  0.5f,  0.5f,  0.0f,1.0f));
-  glm::vec4 b =( glm::vec4( 0.5f, -0.5f,  0.0f,1.0f));
-  glm::vec4 c = ( glm::vec4( -0.5f, -0.5f,  0.0f,1.0f));
-  glm::vec4 d = ( glm::vec4(  -0.5f, 0.5f, 0.0f,1.0f));
-
-  DebugPrint("a",a);
-  DebugPrint("b",b);
-  DebugPrint("c",c);
-  DebugPrint("d",d);
+  glm::vec4 a = view * modelMatrix * glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f);
+  glm::vec4 b =view * modelMatrix * ( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
+  glm::vec4 c = view * modelMatrix * ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
+  glm::vec4 d = view * modelMatrix * ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));
 
   Plane p("test",a,b,c,d);
 
-  //test for intersection
+//test for intersection
   if (p.Intersect(ray)) {
+    isHit = true;
     logger->info("hit");
-
-    for (int i=0; i <4; i++) {
-      points[i].colour[0]=0.0f;
-      points[i].colour[1]=1.0f;
-      points[i].colour[2]=0.0f;
-    }
-
-    Bind();
-    glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
-    float *buf = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
-
-    if (buf==NULL) {
-      logger->info("glMapBuffer failed.");
-    } else {
-      memcpy(buf, points, sizeof(VertexStructure));
-    }
-    glUnmapBuffer(GL_ARRAY_BUFFER);
-    glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-    //
+    SetColour(0.0f,0.0f,1.0f);
+  } else if (isHit){
+    isHit=false;
+    SetColour(1.0f,0.0f,0.0f);
   }
 
+}
+
+void Square::SetColour(float red, float green, float blue) {
+  for (int i=0; i <4; i++) {
+    points[i].colour[0]=red;
+    points[i].colour[1]=green;
+    points[i].colour[2]=blue;
+  }
+
+  Bind();
+  glBindBuffer(GL_ARRAY_BUFFER, vboPoints);
+  float *buf = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+  if (buf==NULL) {
+    logger->info("glMapBuffer failed.");
+  } else {
+    memcpy(buf, points, sizeof(VertexStructure));
+  }
+
+  glUnmapBuffer(GL_ARRAY_BUFFER);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 }

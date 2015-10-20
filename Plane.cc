@@ -30,9 +30,6 @@ Plane::Plane(const char* name, glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 
 
 	glm::vec3 v1 = glm::vec3(this->b-this->a);//b.x - a.x, b.y - a.y, b.z - a.z);
 	glm::vec3 v2 = glm::vec3(this->c-this->a);//c.x - a.x, c.y - a.y, c.z - a.z);
-  DebugPrint("a",this->a);
-  DebugPrint("b",this->b);
-  DebugPrint("c",this->c);
   DebugPrint("v1",v1);
   DebugPrint("v2",v2);
 

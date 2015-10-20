@@ -170,6 +170,9 @@ void Camera::ZoomCamera() {
 }
 
 void Camera::Reset() {
+
+  zoomDelta = 0.0f;
+
   cameraPosition = cameraOrigPos = glm::vec3(0.0, 0.0, 5.0);  // the position of your camera, in world space
   cameraLookAt = glm::vec3(0.0, 0.0, 0.0);  // where you want to look at, in world space
 	cameraUp = glm::vec3(0.0, 1.0, 0.0); //up direction; probably glm::vec3(0,1,0), but (0,-1,0) would make you looking upside-down, which can be great too
