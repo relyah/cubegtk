@@ -14,9 +14,9 @@ Plane::Plane() :
 Plane::Plane(const char* name, glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 d) : name(name), a(a), b(b), c(c), d(d)
 {
   /*this->a = glm::vec4(_a);
-  this->b =b;
-  this->c =c;
-  this->d=d;*/
+    this->b =b;
+    this->c =c;
+    this->d=d;*/
   
 
   //std::cout << "hello " << a.x << std::endl;
@@ -51,9 +51,11 @@ Plane::Plane(const char* name, glm::vec4 a, glm::vec4 b, glm::vec4 c, glm::vec4 
 Plane::~Plane() {
 }
 
-bool Plane::Intersect(Ray& ray) {
+bool Plane::Intersect(Ray& ray, glm::vec4*& pt_out) {
 
 	//std::cout << name << std::endl;
+
+  pt_out =NULL;
 
 	std::cout << "Normal x:" << normal.x << " y:" << normal.y << " z:" << normal.z << " depth:" << depth << std::endl;
 
@@ -85,6 +87,7 @@ bool Plane::Intersect(Ray& ray) {
 	float t = -num / denum;
 
 	glm::vec4 pt = ray.GetPoint(t);
+  pt_out = new glm::vec4(pt);
 	std::cout << "Intersection Pt x:" << pt.x << " y:" << pt.y << " z:" << pt.z << std::endl;
 
 	float dad = ad.GetDistanceToPoint(pt);

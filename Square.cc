@@ -8,11 +8,17 @@ Square::Square(IOpenGLProgram* program, IModel* model) : AbstractObject(program,
   points[3] = {   -0.5f, 0.5f, 0.0f, 0.0f,0.0f,1.0f, 1.0f,0.0f,0.0f};
 
   isHit = false;
+  isDrawHit = false;
+  hit=NULL;
 }
 
 Square::~Square() {
   model=0;
-  //logger=0;
+
+  if (hit!=NULL) {
+    delete hit;
+    hit=NULL;
+  }
 }
 
 void Square::Init() {
@@ -39,6 +45,7 @@ void Square::Gen() {
   //glGenVertexArrays(1, &vao);
   //glBindVertexArray(vao);
   glGenBuffers(1, &vboPoints);
+  glGenBuffers(1, &vboHit);
 }
 
 void Square::FillVBO() {
@@ -54,6 +61,7 @@ void Square::FillVBO() {
   sstm << "vboPoints: " << vboPoints << std::endl;
   logger->info(sstm.str());
   glBufferData(GL_ARRAY_BUFFER, 4 * sizeof(VertexStructure), points, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
 
   glGenBuffers(1, &iboPoints);
   glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, iboPoints);
@@ -61,6 +69,14 @@ void Square::FillVBO() {
   sstm << "iboPoints: " << iboPoints << std::endl;
   logger->info(sstm.str());
   glBufferData(GL_ELEMENT_ARRAY_BUFFER,6*sizeof(unsigned short), pointsIndex, GL_STATIC_DRAW);
+  glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  std::cout << "vboHit " << vboHit << std::endl;
+  glBindBuffer(GL_ARRAY_BUFFER, vboHit);
+  //VertexStructure hitStruct = { 0.0f,0.0f,0.0f, 0.0f,0.0f,1.0f, 1.0f,1.0f,1.0f};
+  glBufferData(GL_ARRAY_BUFFER, 36, NULL, GL_STATIC_DRAW); //&hitStruct
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+  
 
   glEnableVertexAttribArray(attribute_vp);
   glVertexAttribPointer (attribute_vp, 3, GL_FLOAT, GL_FALSE, sizeof(VertexStructure), (GLubyte*)NULL);
@@ -96,13 +112,20 @@ void Square::Render() {
   glDrawElements(GL_TRIANGLES,6,GL_UNSIGNED_SHORT,0);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   //glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+  /*
+  if (isDrawHit) {
+    glDisable(GL_PROGRAM_POINT_SIZE);glPointSize(40.0f); //use glPointSize from the code 
+    glBindBuffer(GL_ARRAY_BUFFER, vboHit);
+    glDrawArrays(GL_POINTS,0,1);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    }*/
 }
 
 void Square::Shutdown() {
   AbstractObject::Shutdown();
   program=0;
   model=0;
-  //glDeleteVertexArrays(1,&vao);
 }
 
 void Square::Intersect(Ray &ray) {
@@ -110,21 +133,32 @@ void Square::Intersect(Ray &ray) {
   glm::mat4 view = model->GetView();
 
   //make plane
-  glm::vec4 a = view * modelMatrix * glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f);
-  glm::vec4 b =view * modelMatrix * ( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
-  glm::vec4 c = view * modelMatrix * ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
-  glm::vec4 d = view * modelMatrix * ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));
+  glm::vec4 a =modelMatrix * glm::vec4(points[0].coord3d[0],points[0].coord3d[1],points[0].coord3d[2],1.0f);
+  glm::vec4 b = modelMatrix * ( glm::vec4(points[1].coord3d[0],points[1].coord3d[1],points[1].coord3d[2],1.0f));
+  glm::vec4 c = modelMatrix * ( glm::vec4(points[2].coord3d[0],points[2].coord3d[1],points[2].coord3d[2],1.0f));
+  glm::vec4 d =  modelMatrix * ( glm::vec4(points[3].coord3d[0],points[3].coord3d[1],points[3].coord3d[2],1.0f));
 
   Plane p("test",a,b,c,d);
 
 //test for intersection
-  if (p.Intersect(ray)) {
+  if (p.Intersect(ray, hit)) {
     isHit = true;
     logger->info("hit");
     SetColour(0.0f,0.0f,1.0f);
+
+    if (hit==NULL) {
+      logger->info("hit is null.");
+    }
   } else if (isHit){
     isHit=false;
     SetColour(1.0f,0.0f,0.0f);
+  }
+
+  if (hit!=NULL) {
+    glm::mat4 invMM = glm::inverse(modelMatrix);
+    *hit = invMM * (*hit); 
+    isDrawHit = true;
+    //SetupHit();
   }
 
 }
@@ -141,9 +175,26 @@ void Square::SetColour(float red, float green, float blue) {
   float *buf = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
 
   if (buf==NULL) {
-    logger->info("glMapBuffer failed.");
+    logger->info("setColour glMapBuffer failed.");
   } else {
-    memcpy(buf, points, sizeof(VertexStructure));
+    memcpy(buf, points, 4*sizeof(VertexStructure));
+  }
+
+  glUnmapBuffer(GL_ARRAY_BUFFER);
+  glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+void Square::SetupHit() {
+  Bind();
+  glBindBuffer(GL_ARRAY_BUFFER, vboHit);
+  float *buf = (float*)glMapBuffer(GL_ARRAY_BUFFER, GL_WRITE_ONLY);
+
+  if (buf==NULL) {
+    logger->info("setuphit glMapBuffer failed.");
+  } else {
+    VertexStructure hitStruct = { hit->x, hit->y, hit->z, 0.0f,0.0f,1.0f, 1.0f,1.0f,1.0f};
+    std::cout << "hit x: " << hit->x << ", y: " << hit->y << ", z: " <<  hit->z << std::endl;
+    memcpy(buf, &hitStruct, sizeof(VertexStructure));
   }
 
   glUnmapBuffer(GL_ARRAY_BUFFER);

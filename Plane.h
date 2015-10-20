@@ -27,7 +27,7 @@ public:
 	virtual ~Plane();
 
 
-	bool Intersect(Ray& ray);
+	bool Intersect(Ray& ray, glm::vec4 *&pt_out);
 	bool Intersect(Plane& other, Ray*& ray);
 
 	void FindIntersection(Ray& ray, glm::vec4 *&p1, glm::vec4 *& p2);

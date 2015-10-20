@@ -66,7 +66,7 @@ glm::vec4 Intersector::CalcDir() {
   glm::vec4 rayClip = glm::vec4(1.0f);
   rayClip.x = (2.0f * (float) x) / (float) camera->GetScreenWidth() - 1.0f;
   rayClip.y = 1.0f - (2.0f * (float) y) / (float) camera->GetScreenHeight();
-  rayClip.z = -1.0f;  //0.680672f;
+  rayClip.z = -1.0f; 
   rayClip.w = 1.0f;
 
   sstm.str(std::string());
